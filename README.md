@@ -1,3 +1,3 @@
-helo world
+HELLO world
 # shppGame
 
