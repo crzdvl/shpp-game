@@ -1,0 +1,333 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+</head>
+<script src="pixi.js"></script>
+<style>
+  body {
+    margin: 0%;
+  }
+</style>
+
+<body>
+  <script type="text/javascript">
+    //Variables--------------------------------------------------------------------------------------------------------------------
+    var app;
+    var score;
+    var plobnul = 75;
+    var animPlNum;
+    var GameScore = 0;
+    //booleans---------------------------------------------------------------------------------------------------------------------
+    var rightPressed = false;
+    var leftPressed = false;
+    var stop = false;
+    var rest = false;
+    var scoreBool = true;
+    //arrays----------------------------------------------------------------------------------------------------------------------
+    var pluses = [];
+    var font = (innerHeight * innerWidth) / 8000;
+    //styles-----------------------------------------------------------------------------------------------------------------------
+    var plStyle = new PIXI.TextStyle({
+      fill: "green",
+      fontSize: 1,
+      strokeThickness: 4,
+    });
+    var shStyle = new PIXI.TextStyle({
+      fill: "black",
+      fontSize: (innerHeight * innerWidth) / 8000,
+      strokeThickness: 4,
+
+    });
+    var punktPlusStyle = new PIXI.TextStyle({
+      fill: "gray",
+      fontSize: (innerHeight * innerWidth) / 8000,
+      stroke: "black",
+      strokeThickness: 4
+    });
+    var scoreStyle = new PIXI.TextStyle({
+      fill: "green",
+      fontSize: (innerHeight * innerWidth) / 8000,
+      stroke: "black",
+      strokeThickness: 8
+    });
+    //objects----------------------------------------------------------------------------------------------------------------------
+    var PunktPlus = new PIXI.Text("+", punktPlusStyle);
+    var sh = new PIXI.Text("Ш", shStyle);
+    var score = new PIXI.Text("0", scoreStyle);
+    var boom = [{
+      x: 0,
+      y: 0,
+      shagx: Math.floor(Math.random()*(10 - 10)),
+      shagy: Math.floor(Math.random * -7 - 2),
+      gravity: 0.1,
+    
+    }]
+    score.num = 0;
+    score.speed = 0;
+    score.gravity = 0;
+    score.change = 0;
+    score.alpha = 0;
+    score.bool = false;
+    var shRB = {
+      x: 0,
+      y: 0,
+      w: font,
+      h: font,
+    }
+    PunktPlus.x = innerWidth / 2 + innerHeight / 12;
+    PunktPlus.y = innerHeight - font;
+    PunktPlus.alpha = 1;
+    sh.x = innerWidth / 2 - font / 2;
+    sh.y = innerHeight - font;
+    score.x = innerWidth - font * 1.5;
+    score.y = font;
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+    app = new PIXI.Application({
+      width: document.body.offsetWidth,
+      height: innerHeight - 4,
+      backgroundColor: 0xAAAAAA
+    })
+    app.stage.addChild(score)
+    app.stage.addChild(sh);
+    app.stage.addChild(PunktPlus);
+    document.body.appendChild(app.view);
+    //DropingPlusesFunctions---------------------------------------------------------------------------------------------------------
+    function PlusMover() {
+      for (let i = 0; i < pluses.length; i++) {
+        if (!pluses[i].catched) {
+          pluses[i].y += 3;
+        }
+      }
+    }
+
+    function PlusShift() {
+      if (pluses[0].y > innerHeight) {
+        pluses.shift();
+      }
+    }
+
+    function PlusPusher() {
+      if (pluses.length == 0) {
+        pluses.push(new PIXI.Text("+", plStyle))
+        pluses[pluses.length - 1].catched = false;
+        pluses[pluses.length - 1].onPlace = false;
+        pluses[pluses.length - 1].x = Math.floor(Math.random() * ((innerWidth - 200) + 200));
+        pluses[pluses.length - 1].y = -110;
+        app.stage.addChild(pluses[0])
+      }
+      if (pluses[pluses.length - 1].y > 120) {
+        pluses.push(new PIXI.Text("+", plStyle))
+        pluses[pluses.length - 1].catched = false;
+        pluses[pluses.length - 1].onPlace = false;
+        pluses[pluses.length - 1].x = Math.floor(Math.random() * innerWidth - 100);
+        pluses[pluses.length - 1].y = -100;
+        app.stage.addChild(pluses[pluses.length - 1])
+      }
+    }
+    function PlusAnim(){
+      for(let i = 0; i < pluses.length; i++){
+        if(pluses[i].style.fontSize<font && pluses[i].y>150){
+        pluses[i].style.fontSize+=1;
+      }
+      }
+    }
+    //FunctionWhichMovesSh-----------------------------------------------------------------------------------------------------------
+    function keyDownHandler(e) {
+      if (e.keyCode == 39) {
+        rightPressed = true;
+      }
+      if (e.keyCode == 37) {
+        leftPressed = true;
+      }
+    }
+
+    function keyUpHandler(e) {
+      if (e.keyCode == 39) {
+        rightPressed = false;
+      }
+      if (e.keyCode == 37) {
+        leftPressed = false;
+      }
+    }
+
+    function ShMover() {
+      if (rightPressed == true && sh.x + font < innerWidth) {
+        sh.x += 15;
+      }
+      if (leftPressed == true && sh.x > 0) {
+        sh.x -= 15;
+      }
+    }
+    //PlusCathcher-------------------------------------------------------------------------------------------------------------------
+    function PlusCatcher() {
+      for (let i = 0; i < pluses.length; i++) {
+        if (
+          pluses[i].y < innerHeight - font / 1.5 &&
+          pluses[i].y > innerHeight - font * 1.5 &&
+          pluses[i].catched == false
+        ) {
+          if (
+            pluses[i].x > PunktPlus.x - font / 2 &&
+            pluses[i].x < PunktPlus.x + font / 2
+          ) {
+            pluses[i].catched = true;
+          }
+        }
+      }
+    }
+
+    function PlusCatcherAnim() {
+      for (plus of pluses) {
+        let shagY = (PunktPlus.y - plus.y) / 6;
+        let shagX = (PunktPlus.x - plus.x) / 2;
+        if (plus.catched && !plus.onPlace) {
+          if (plus.x < PunktPlus.x && !plus.onPlace) {
+            plus.x += shagX;
+          }
+          if (plus.x > PunktPlus.x && !plus.onPlace) {
+            plus.x += shagX;
+          }
+          if (plus.y < PunktPlus.y && !plus.onPlace) {
+            plus.y += shagY;
+          }
+          if (plus.y > PunktPlus.y - 1) {
+            plus.y = PunktPlus.y
+            plus.x = PunktPlus.x
+            PunktPlus.change = true;
+            plus.onPlace = true;
+            scoreBool = true;
+            PunktPlus.alpha = 0;
+ 
+          }
+        }
+      }
+    }
+    //GameOver-----------------------------------------------------------------------------------------------------------------------
+    function GameOver() {
+      for (let i = 0; i < pluses.length; i++) {
+        if (
+          pluses[i].y < shRB.y &&
+          pluses[i].y > shRB.y - shRB.h + font / 15 &&
+          !pluses[i].catched
+        ) {
+          if (pluses[i].x > shRB.x && pluses[i].x < shRB.x + shRB.w) {
+            stop = true;
+            app.stage.removeChild(pluses[i])
+          }
+        }
+      }
+    }
+    //Restart------------------------------------------------------------------------------------------------------------------------   
+    function Restart() {
+      sh.x = innerWidth / 2 - font / 2;
+      for (let i = 0; i < pluses.length; i++) {
+        app.stage.removeChild(pluses[i]);
+      }
+      pluses.length = 0;
+      plobnul = 75
+      sh.y = innerHeight - font;
+      PunktPlus.x = innerWidth / 2 + innerHeight / 12;
+      PunktPlus.y = innerHeight - font;
+      GameScore = 1;
+    }
+    //GameScore----------------------------------------------------------------------------------------------------------------------
+    function scoreDrawer() {
+      if (scoreBool) {
+        if (score.alpha == 0) {
+          score.y = -50;
+          score.text = 0;
+          score.speed = 15;
+          score.gravity = 0;
+          GameScore++;
+          scoreBool = false;
+        } else {
+          score.bool = true;
+        }
+      }
+      if(score.alpha == 0 && score.y == -50){
+        score.bool = false;
+      }
+      if (score.bool == true) {
+        if(score.alpha < 0){
+          score.alpha = 0;
+        }
+        if (score.alpha > 0) {
+          score.alpha -= 0.1;
+
+        }
+      } else {
+        if (score.alpha < 1) {
+          score.alpha += 0.1;
+        }
+      }
+      score.text = GameScore - 1;
+      score.style.stroke = "rgba(0,0,0," + score.alpha + ")"
+      score.style.fill = "rgba(0,128,0," + score.alpha + ")"
+      ScoreAnim();
+    }
+
+    function ScoreAnim() {
+      if (score.y > 50) {
+        score.speed = -10;
+      }
+      if (score.gravity < 2) {
+        score.y += score.speed;
+        score.change = true;
+      }
+      if (score.change && score.speed < 15) {
+        score.speed += score.gravity;
+        score.gravity += 0.04;
+      }
+    }
+    //PunktPlusAnim------------------------------------------------------------------------------------------------------------------
+    function PunktPlusAnim(){
+      if(PunktPlus.alpha < 1){
+        PunktPlus.alpha+=0.03
+      }
+      if(PunktPlus.alpha > 1){
+        PunktPlus.alpha=1
+      }
+      console.log(PunktPlus.alpha)
+      PunktPlus.style.stroke = "rgba(0,0,0," + PunktPlus.alpha + ")"
+      PunktPlus.style.fill = "rgba(128,128,128," + PunktPlus.alpha + ")"
+    }
+    //UpdateAddictedVariables--------------------------------------------------------------------------------------------------------
+    function Update() {
+      shRB.x = sh.x - font / 2;
+      shRB.y = sh.y + font / 3;
+      let o = 1;
+      for (let i = 0; i < pluses.length; i++) {
+        if (pluses[i].onPlace) {
+          pluses[i].x = sh.x + font / 5 + (font * o * 0.8);
+          o++;
+        }
+      }
+      PunktPlus.x = sh.x + font / 5 + (font * GameScore * 0.8);
+    }
+    //AppTicker----------------------------------------------------------------------------------------------------------------------
+    app.ticker.add(() => {
+      if (!stop) {
+        Update();
+        PlusMover();
+        PlusPusher();
+        PlusShift();
+        PlusCatcher();
+        PlusAnim();
+        PlusCatcherAnim();
+        PunktPlusAnim();
+        ShMover();
+        scoreDrawer();
+        GameOver();
+      } else {
+        Restart();
+        stop = false
+      }
+    });
+  </script>
+</body>
+
+</html>
