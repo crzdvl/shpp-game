@@ -119,7 +119,7 @@
             state.pluses.falling.length = 0;
             state.pluses.onPlace = []
             state.pluses.onPlace.length = 0
-            config.shPlDist = state.sh.x + config.font + config.font / 12
+            config.shPlDist = state.sh.x + config.font/1.2
             state.greyPlus.x = state.sh.x + config.shPlDist
             state.sh.x = innerWidth / 2 - config.font / 2
             state.sh.y = innerHeight - config.font
@@ -203,12 +203,6 @@
                     ) {
                         state.pluses.falling[i].catched = true;
                         app.stage.removeChild(state.pluses.falling[i])
-                        state.coord.push({
-                            x:state.greyPlus.x,
-                            y:state.greyPlus.y,
-                        })
-                        state.scet += 1
-                        state.greyPlus.x = (state.sh.x + config.shPlDist) * state.scet
                         PlusOnPlace(state.pluses.falling[i].x,state.pluses.falling[i].y)
                     }
                 }
@@ -236,32 +230,40 @@
         }
         function PlusCatcherAnim() {
             for (plus of state.pluses.onPlace) {
-                let shagY = (state.coord.y - plus.y) / 6;
-                let shagX = (state.coord.x - plus.x) / 2;
+                let shagY = (state.greyPlus.y - plus.y) / 6;
+                let shagX = (state.greyPlus.x - plus.x) / 2;
                  
-                    if (plus.x < state.coord[0].x && !plus.onPlace) {
+                    if (plus.x < state.greyPlus.x && !plus.onPlace) {
                         plus.x += shagX;
                     }
-                    if (plus.x > state.coord[0].x && !plus.onPlace) {
+                    if (plus.x > state.greyPlus.x && !plus.onPlace) {
                         plus.x += shagX;
                     }
                     if (plus.y < state.greyPlus.y && !plus.onPlace) {
                         plus.y += shagY;
                     }
-                    if (plus.y > state.coord.y - 1) {
-                        plus.y = state.coord.y
-                        plus.x = state.coord.x
+                    if (plus.y > state.greyPlus.y - 1 && !plus.onPlace) {
+                        plus.y = state.greyPlus.y
+                        plus.x = state.greyPlus.x
                         plus.onPlace = true;
+                        state.scet+=1
                     }
                 }
             }
+            function gameScore (){
+             state.score.x = innerWidth - config.font - config.shPlDist
+             state.score.y = innerHeight - (innerHeight - config.font)
+             state.score.text = state.scet
+            }
         
         document.body.appendChild(app.view);
+        app.stage.addChild(state.score)
         app.stage.addChild(state.sh)
         app.stage.addChild(state.greyPlus)
 
         app.ticker.add(() => {
             PlusCatcher();
+            gameScore();
             Update();
             Shmover();
             PlusPusher();
