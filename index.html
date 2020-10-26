@@ -68,6 +68,16 @@
             fontSize: innerWidth / 10,
             strokeThickness: 4,
         });
+        var plOnStyle = new PIXI.TextStyle({
+            fill: "green",
+            fontSize: innerWidth / 10,
+            strokeThickness: 4,
+        });
+        var plStyleBoom = new PIXI.TextStyle({
+            fill: "gray",
+            fontSize: innerWidth / 10,
+            strokeThickness: 4,
+        });
         var shStyle = new PIXI.TextStyle({
             fill: "black",
             fontSize: innerWidth / 10,
@@ -96,6 +106,11 @@
                 boom: new PIXI.Text("+", plStyle),
                 colision: new PIXI.Text("+", plStyle)
             }],
+            deadPlus: 0,
+            drawDeadPL: true,  
+            nDeadPl: 0,
+            change: false,
+            changeF: false,             
             rightPressed: false,
             leftPressed: false,
             scet: 0,
@@ -119,11 +134,13 @@
             state.pluses.falling.length = 0;
             state.pluses.onPlace = []
             state.pluses.onPlace.length = 0
-            config.shPlDist = state.sh.x + config.font/1.2
+            config.shPlDist = state.sh.x + config.font / 1.1
             state.greyPlus.x = state.sh.x + config.shPlDist
             state.sh.x = innerWidth / 2 - config.font / 2
             state.sh.y = innerHeight - config.font
             state.coord = [];
+            state.pluses.boom = [];
+            state.pluses.boom.length = 0;
         }
 
         initialization();
@@ -160,6 +177,7 @@
                 state.pluses.falling.push(new PIXI.Text("+", plStyle))
                 state.pluses.falling[state.pluses.falling.length - 1].catched = false;
                 state.pluses.falling[state.pluses.falling.length - 1].onPlace = false;
+                state.pluses.falling[state.pluses.falling.length - 1].kill = false;
                 state.pluses.falling[state.pluses.falling.length - 1].x = Math.floor(Math.random() * ((innerWidth -
                     config.font) + config.font * 2));
                 state.pluses.falling[state.pluses.falling.length - 1].y = -110;
@@ -172,6 +190,7 @@
                 state.pluses.falling.push(new PIXI.Text("+", plStyle))
                 state.pluses.falling[state.pluses.falling.length - 1].catched = false;
                 state.pluses.falling[state.pluses.falling.length - 1].onPlace = false;
+                state.pluses.falling[state.pluses.falling.length - 1].kill = false;
                 state.pluses.falling[state.pluses.falling.length - 1].x = Math.floor(Math.random() * innerWidth - 100);
                 state.pluses.falling[state.pluses.falling.length - 1].y = -100;
                 state.pluses.falling[state.pluses.falling.length - 1].mvx = 0;
@@ -203,59 +222,129 @@
                     ) {
                         state.pluses.falling[i].catched = true;
                         app.stage.removeChild(state.pluses.falling[i])
-                        PlusOnPlace(state.pluses.falling[i].x,state.pluses.falling[i].y)
+                        PlusOnPlace(state.pluses.falling[i].x, state.pluses.falling[i].y)
                     }
                 }
             }
         }
 
         function Update() {
+            for(let i = 0; i < state.pluses.falling.length; i++)
+            {
+                if(state.pluses.falling[i].y>innerHeight){
+                    console.log("A")
+                    state.pluses.falling.splice(i,1)
+                }
+            }
             if (state.pluses.onPlace.length > 0) {
-                state.greyPlus.x = state.sh.x + (config.shPlDist * (state.scet+1))
+                state.greyPlus.x = state.sh.x + (config.shPlDist * (state.scet + 1)) 
                 state.greyPlus.y = state.sh.y
-                for (let i = 0; i < state.pluses.onPlace.length;i++){
-                    state.pluses.onPlace[i].x = state.sh.x + (config.shPlDist * (1+i))
+                for (let i = 0; i < state.pluses.onPlace.length; i++) {
+                    state.pluses.onPlace[i].x = state.sh.x + (config.shPlDist * (1 + i))
                 }
             } else {
-                state.greyPlus.x = state.sh.x + config.shPlDist * (state.scet+1)
+                state.greyPlus.x = state.sh.x + config.shPlDist * (state.scet + 1)
                 state.greyPlus.y = state.sh.y
             }
         }
-        function PlusOnPlace(X,Y) {
 
-            state.pluses.onPlace.push(new PIXI.Text("+", plStyle))
-            state.pluses.onPlace[state.pluses.onPlace.length-1].x = X;
-            state.pluses.onPlace[state.pluses.onPlace.length-1].y = Y;
-            app.stage.addChild(state.pluses.onPlace[state.pluses.onPlace.length-1])
+        function PlusOnPlace(X, Y) {
+
+            state.pluses.onPlace.push(new PIXI.Text("+", plOnStyle))
+            state.pluses.onPlace[state.pluses.onPlace.length - 1].x = X;
+            state.pluses.onPlace[state.pluses.onPlace.length - 1].y = Y;
+            app.stage.addChild(state.pluses.onPlace[state.pluses.onPlace.length - 1])
         }
+
         function PlusCatcherAnim() {
             for (plus of state.pluses.onPlace) {
                 let shagY = (state.greyPlus.y - plus.y) / 6;
                 let shagX = (state.greyPlus.x - plus.x) / 2;
+
+                if (plus.x < state.greyPlus.x && !plus.onPlace) {
+                    plus.x += shagX;
+                }
+                if (plus.x > state.greyPlus.x && !plus.onPlace) {
+                    plus.x += shagX;
+                }
+                if (plus.y < state.greyPlus.y && !plus.onPlace) {
+                    plus.y += shagY;
+                }
+                if (plus.y > state.greyPlus.y - 1 && !plus.onPlace) {
+                    plus.y = state.greyPlus.y
+                    plus.x = state.greyPlus.x
+                    plus.onPlace = true;
+                    state.scet += 1
+                }
+            }
+        }
+
+        function NUPL() {
+            for (let i = 0; i < state.pluses.falling.length; i++) {
+                for (let a = 0; a < state.pluses.onPlace.length; a++) {
+                    if (state.pluses.onPlace[a].x < state.pluses.falling[i].x &&
+                    state.pluses.onPlace[a].x + config.shPlDist > state.pluses.falling[i].x &&
+                        !state.pluses.falling[i].catched && !state.pluses.falling[i].kill) {
+                        if (state.pluses.onPlace[a].y > state.pluses.falling[i].y && state.pluses.onPlace[a].y - config.shPlDist < state.pluses.falling[i].y) {
+                            state.deadPlus = a + 1;
+                            state.change = true;
+                            state.changeF = true;
+                            state.pluses.falling[i].kill = true;
+                            state.drawDeadPL = false
+                            app.stage.removeChild(state.pluses.falling[i])
                  
-                    if (plus.x < state.greyPlus.x && !plus.onPlace) {
-                        plus.x += shagX;
-                    }
-                    if (plus.x > state.greyPlus.x && !plus.onPlace) {
-                        plus.x += shagX;
-                    }
-                    if (plus.y < state.greyPlus.y && !plus.onPlace) {
-                        plus.y += shagY;
-                    }
-                    if (plus.y > state.greyPlus.y - 1 && !plus.onPlace) {
-                        plus.y = state.greyPlus.y
-                        plus.x = state.greyPlus.x
-                        plus.onPlace = true;
-                        state.scet+=1
+                        }
                     }
                 }
             }
-            function gameScore (){
-             state.score.x = innerWidth - config.font - config.shPlDist
-             state.score.y = innerHeight - (innerHeight - config.font)
-             state.score.text = state.scet
+        }
+         
+    function BOOMPluses() {
+        if (state.change) {
+            for (let a = state.deadPlus - 1; a < state.pluses.onPlace.length; a++) {
+                state.pluses.boom.push(new PIXI.Text("+", plStyleBoom))
+                state.pluses.boom[state.pluses.boom.length-1].x = state.pluses.onPlace[a].x;
+                state.pluses.boom[state.pluses.boom.length-1].y = state.pluses.onPlace[a].y;
+                state.pluses.boom[state.pluses.boom.length-1].xShag = Math.floor(Math.random() * (15 - (-15) + 1) - 15);
+                state.pluses.boom[state.pluses.boom.length-1].yShag = Math.floor(Math.random() * -10 - 14);
+                state.pluses.gravity = 0.4;
+                app.stage.addChild(state.pluses.boom[state.pluses.boom.length-1])
             }
-        
+            for(let i = state.deadPlus - 1; i<state.pluses.onPlace.length; i++){
+                    
+                app.stage.removeChild(state.pluses.onPlace[i])
+                
+               // state.pluses.onPlace.splice(i, 1);
+                state.scet = state.pluses.onPlace.length - (state.pluses.onPlace.length - state.deadPlus);
+                
+                state.pluses.onPlace.length = state.scet;
+                
+            }
+            state.change = false;
+        }
+    }
+
+    function NRplusesMode() {
+    for (let r = 0; r < state.pluses.boom.length; r++) {
+        state.pluses.boom[r].x += state.pluses.boom[r].xShag;
+        state.pluses.boom[r].y += state.pluses.boom[r].yShag;
+        state.pluses.boom[r].yShag += state.pluses.gravity;
+
+        if (state.pluses.boom.map(({
+                y
+            }) => y).filter(a => a != undefined).every(a => a > innerHeight)) {
+            for (let i = 0; i < state.pluses.boom.length; i++) {
+                state.pluses.boom.pop();
+            }
+        }
+    }
+}
+        function gameScore() {
+            state.score.x = innerWidth - config.font - config.shPlDist;
+            state.score.y = innerHeight - (innerHeight - config.font)
+            state.score.text = state.scet
+        }
+
         document.body.appendChild(app.view);
         app.stage.addChild(state.score)
         app.stage.addChild(state.sh)
@@ -264,11 +353,14 @@
         app.ticker.add(() => {
             PlusCatcher();
             gameScore();
+            BOOMPluses();
             Update();
+            NRplusesMode();
             Shmover();
             PlusPusher();
             PlusMover();
             PlusCatcherAnim();
+            NUPL();
         });
     </script>
 </body>
