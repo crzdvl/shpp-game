@@ -22,6 +22,7 @@
         })
         //config-----------------------------------------------------------------------------------
         var config = {
+            gravity: 0,
             menu: {
                 x: 0,
                 y: 0,
@@ -45,7 +46,7 @@
                 }
             },
             random: {
-                x:  15 - (-15) + 1 -15,
+                x: 15 - (-15) + 1 - 15,
                 y: -10 - 14,
             },
             font: innerWidth / 10,
@@ -72,35 +73,35 @@
         var plStyle = new PIXI.TextStyle({
             fill: "green",
             fontSize: innerWidth / 10,
-            strokeThickness: 4,
+            strokeThickness: 2,
         });
         var plOnStyle = new PIXI.TextStyle({
             fill: "green",
             fontSize: innerWidth / 10,
-            strokeThickness: 4,
+            strokeThickness: 2,
         });
         var plStyleBoom = new PIXI.TextStyle({
             fill: "gray",
             fontSize: innerWidth / 10,
-            strokeThickness: 4,
+            strokeThickness: 2,
         });
         var shStyle = new PIXI.TextStyle({
             fill: "black",
             fontSize: innerWidth / 10,
-            strokeThickness: 4,
+            strokeThickness: 2,
 
         });
         var punktPlusStyle = new PIXI.TextStyle({
             fill: "gray",
             fontSize: innerWidth / 10,
             stroke: "black",
-            strokeThickness: 4
+            strokeThickness: 2
         });
         var scoreStyle = new PIXI.TextStyle({
             fill: "green",
             fontSize: innerWidth / 10,
             stroke: "black",
-            strokeThickness: 8
+            strokeThickness: 2,
         });
         //state--------------------------------------------------------------------------------------------------------
         var state = {
@@ -117,9 +118,16 @@
             nDeadPl: 0,
             change: false,
             changeF: false,
+            stop: false,
             rightPressed: false,
             leftPressed: false,
             scet: 0,
+            shRB: {
+                x: 0,
+                y: 0,
+                h: 0,
+                w: 0,
+            },
             score: new PIXI.Text("0", scoreStyle),
             sh: new PIXI.Text("Ш", shStyle),
             greyPlus: new PIXI.Text("+", punktPlusStyle),
@@ -136,21 +144,51 @@
         document.addEventListener("keyup", keyUpHandler, false);
 
         function initialization() {
+            config.gravity = 0.4
+            state.shRB.x = state.sh.x - config.font / 2
+            state.shRB.y = state.sh.y + config.font / 3
+            state.shRB.w = config.font * 2
+            state.shRB.h = config.font
             state.pluses.falling = [];
+            state.stop = false
             state.pluses.falling.length = 0;
             state.pluses.onPlace = []
             state.pluses.onPlace.length = 0
             config.shPlDist = state.sh.x + config.font / 1.5
             config.greyDist = state.sh.x + config.font / 2.5
             state.greyPlus.x = state.sh.x + config.shPlDist
+            state.greyPlus.shag = {}
+            state.greyPlus.shag.x = Math.floor(Math.random()*(config.random.x));
+            state.greyPlus.shag.y = Math.floor(Math.random()*(config.random.y));
             state.sh.x = innerWidth / 2 - config.font / 2
             state.sh.y = innerHeight - config.font
             state.coord = [];
             state.pluses.boom = [];
             state.pluses.boom.length = 0;
+            state.sh.shag = {}
+            state.sh.shag.x = Math.floor(Math.random()*(config.random.x));
+            state.sh.shag.y = Math.floor(Math.random()*(config.random.y));
         }
 
         initialization();
+
+        function GameOver() {
+            //GameOver sh---------------------------------------------------------------------------------------------------
+            for (let i = 0; i < state.pluses.falling.length; i++) {
+                if (
+                    state.pluses.falling[i].y < state.shRB.y &&
+                    state.pluses.falling[i].y > state.shRB.y - state.shRB.h
+                ) {
+                    if (state.pluses.falling[i].x > state.shRB.x && state.pluses.falling[i].x < state.shRB.x + state
+                        .shRB.w &&
+                        !state.pluses.falling[i].catched &&
+                        !state.pluses.falling[i].kill) {
+                        state.stop = true;
+                        app.stage.removeChild(state.pluses.falling[i])
+                    }
+                }
+            }
+        }
 
         function keyDownHandler(e) {
             if (e.keyCode == 39) {
@@ -241,6 +279,10 @@
         }
 
         function Update() {
+            state.shRB.x = state.sh.x - config.font / 2
+            state.shRB.y = state.sh.y + config.font / 3
+            state.shRB.w = config.font
+            state.shRB.h = config.font
             for (let i = 0; i < state.pluses.falling.length; i++) {
                 if (state.pluses.falling[i].y > innerHeight) {
                     state.pluses.falling.splice(i, 1)
@@ -263,6 +305,10 @@
             state.pluses.onPlace.push(new PIXI.Text("+", plOnStyle))
             state.pluses.onPlace[state.pluses.onPlace.length - 1].x = X;
             state.pluses.onPlace[state.pluses.onPlace.length - 1].y = Y;
+            state.pluses.onPlace[state.pluses.onPlace.length - 1].shag = {};
+            state.pluses.onPlace[state.pluses.onPlace.length - 1].Xshag =  Math.floor(Math.random() * config.random.x);
+            state.pluses.onPlace[state.pluses.onPlace.length - 1].Yshag = Math.floor(Math.random() * config.random.y);
+            console.log(state.pluses.onPlace[state.pluses.onPlace.length - 1].shag)
             app.stage.addChild(state.pluses.onPlace[state.pluses.onPlace.length - 1])
         }
 
@@ -292,8 +338,8 @@
         function ColisionNumber() {
             for (let i = 0; i < state.pluses.falling.length; i++) {
                 for (let a = 0; a < state.pluses.onPlace.length; a++) {
-                    if (state.pluses.onPlace[a].x < state.pluses.falling[i].x &&
-                        state.pluses.onPlace[a].x + config.shPlDist > state.pluses.falling[i].x &&
+                    if (state.pluses.onPlace[a].x < state.pluses.falling[i].x + config.shPlDist / 2 &&
+                        state.pluses.onPlace[a].x + config.shPlDist > state.pluses.falling[i].x + config.shPlDist / 2 &&
                         !state.pluses.falling[i].catched && !state.pluses.falling[i].kill) {
                         if (state.pluses.onPlace[a].y > state.pluses.falling[i].y && state.pluses.onPlace[a].y - config
                             .shPlDist < state.pluses.falling[i].y) {
@@ -316,9 +362,8 @@
                 state.pluses.boom.push(new PIXI.Text("+", plStyleBoom))
                 state.pluses.boom[state.pluses.boom.length - 1].x = state.pluses.onPlace[a].x;
                 state.pluses.boom[state.pluses.boom.length - 1].y = state.pluses.onPlace[a].y;
-                state.pluses.boom[state.pluses.boom.length - 1].xShag = Math.floor(Math.random() * (15 - (-15) + 1) -
-                    15);
-                state.pluses.boom[state.pluses.boom.length - 1].yShag = Math.floor(Math.random() * -10 - 14);
+                state.pluses.boom[state.pluses.boom.length - 1].xShag = Math.floor(Math.random() * config.random.x);
+                state.pluses.boom[state.pluses.boom.length - 1].yShag = Math.floor(Math.random() * config.random.y);
                 state.pluses.gravity = 0.4;
                 app.stage.addChild(state.pluses.boom[state.pluses.boom.length - 1])
             }
@@ -345,19 +390,35 @@
             }
             filter();
         }
-        function filter(){
+
+        function filter() {
             if (state.pluses.boom.map(({
-                        y
-                    }) => y).filter(a => a != undefined).every(a => a > innerHeight)) {
-                    for (let i = 0; i < state.pluses.boom.length; i++) {
-                        state.pluses.boom.pop();
-                    }
+                    y
+                }) => y).filter(a => a != undefined).every(a => a > innerHeight)) {
+                for (let i = 0; i < state.pluses.boom.length; i++) {
+                    state.pluses.boom.pop();
                 }
+            }
         }
+
         function gameScore() {
             state.score.x = innerWidth - config.font - config.shPlDist;
             state.score.y = innerHeight - (innerHeight - config.font)
             state.score.text = state.scet
+        }
+
+        function GoAnim() {
+            for (let i = 0; i < state.pluses.onPlace.length; i++) {
+                state.pluses.onPlace[i].x += state.pluses.onPlace[i].Xshag;
+                state.pluses.onPlace[i].y += state.pluses.onPlace[i].Yshag;
+                state.pluses.onPlace[i].Yshag += config.gravity;
+            }
+            state.sh.x += state.sh.shag.x;
+            state.sh.y += state.sh.shag.y;
+            state.sh.shag.y += config.gravity;
+            state.greyPlus.x += state.greyPlus.shag.x;
+            state.greyPlus.y += state.greyPlus.shag.y;
+            state.greyPlus.shag.y += config.gravity;
         }
 
         document.body.appendChild(app.view);
@@ -366,16 +427,21 @@
         app.stage.addChild(state.greyPlus)
 
         app.ticker.add(() => {
-            PlusCatcher();
-            gameScore();
-            BOOMPluses();
-            Update();
-            MoveBoomPluses();
-            Shmover();
-            PlusPusher();
-            PlusMover();
-            PlusCatcherAnim();
-            ColisionNumber();
+            if (state.stop == false) {
+                PlusCatcher();
+                gameScore();
+                BOOMPluses();
+                Update();
+                MoveBoomPluses();
+                Shmover();
+                PlusPusher();
+                PlusMover();
+                PlusCatcherAnim();
+                ColisionNumber();
+            } else {
+                GoAnim();
+            }
+            GameOver();
         });
     </script>
 </body>
