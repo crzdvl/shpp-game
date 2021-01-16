@@ -15,52 +15,53 @@
 
 <body>
     <script>
-        app = new PIXI.Application({
-            width: document.body.offsetWidth,
-            height: innerHeight - 4,
-            backgroundColor: 0xffffff
-        })
+    app = new PIXI.Application({
+    width: document.body.offsetWidth,
+    height: innerHeight - 4,
+    backgroundColor: 0xffffff})
     //конфиг------------------------------------------------------------------------------------------------------
     var config = {
-        shPlDist: (innerWidth / 10) / 1.5, //расстояние между словлеными плюсами
+        rotationRandomizer: (0.025 - 0.018) +0.018,
+        catchedPlusesDist: (innerWidth / 10) / 1.5, //расстояние между словлеными плюсами
         greyDist: (innerWidth / 10) / 2.5, //расстояние между "Ш" и словленными плюсами
         gravity: 0.4, //сила притяжения, которая действует на плюсы и т.д. во время падения
-        sizesForRandom: { //мин. и макс. число для рандомов, которые двигают плюсы и т.д. в падении
-            x: 15 - (-15) + 1 - 15,
-            y: -10 - 14,
-        },
         fontSize: innerWidth / 10, //размер шрифта
-        speed: (innerWidth / 10) * 0.2, //скорость движения "Ш"
-        scorePositionX: innerWidth - innerWidth / 10,
+        fallingPlusesSpeed: (innerWidth / 250), //cкорость падающих плюсов
+        shStartXPosition: innerWidth / 2 - (innerWidth / 10) / 2,
+        shSpeed: (innerWidth / 10) * 0.2, //скорость движения "Ш"
+        scorePositionX: innerWidth - innerWidth / 10, //позиция счета по иксу
+        sizesForRandom: { x: 15 - (-15) + 1 - 15,y: -12 - 17,}, //мин. и макс. число для рандомов, которые двигают плюсы
         styles: { //стили объектов ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
             greenPlus: new PIXI.TextStyle({ //стиль для просто зелёного плюса
                 fill: "green",
+                lineJoin: "round",
+                stroke: 'green',
                 fontSize: innerWidth / 10,
-                strokeThickness: 2,
-            }),
+                strokeThickness: 4,}),
 
             grayPlus: new PIXI.TextStyle({ //стиль для серого плюса
                 fill: "gray",
+                lineJoin: "round",
                 fontSize: innerWidth / 10,
-                strokeThickness: 2,
-            }),
+                strokeThickness: 4,}),
 
             sh: new PIXI.TextStyle({ //стиль "Ш"
                 fill: "black",
+                lineJoin: "round",
                 fontSize: innerWidth / 10,
-                strokeThickness: 2,
-            }),
+                strokeThickness: 4,}),
 
             score: new PIXI.TextStyle({ //стиль счёта
                 fill: 'green',
-                fontSize: innerWidth / 10,
-                stroke: "black",
-                strokeThickness: 2,
-            }),
-        },
+                fontSize: innerWidth / 15,
+                lineJoin: "round",
+                stroke: 'green',
+                strokeThickness: 4,}),},
     }
     //стейт-------------------------------------------------------------------------------------------------------
     var state = {
+        shRealSize: PIXI.TextMetrics.measureText("Ш", config.styles.sh),
+        plusRealSize: PIXI.TextMetrics.measureText("+", config.styles.greenPlus),
         pluses: { //массивы плюсов
             falling: [], //падающие плюсы
             onPlace: [], //словленные плюсы
@@ -70,8 +71,7 @@
         pushPlusNextSh: false, //??
         rightPressed: false, //если нажата правая кнопка
         leftPressed: false, //если нажата левая кнопка
-        score: 0, //внутренняя переменная в которой хранится значение счёта
-        shRB: { //объект с размерами "Ш"
+        shSizes: { //объект с размерами "Ш"
             x: 0,
             y: 0,
             h: 0,
@@ -81,16 +81,24 @@
         sh: new PIXI.Text("Ш", config.styles.sh), //объект "Ш"
         greyPlus: new PIXI.Text("+", config.styles.grayPlus), //объект плейсхолдера
         stop: false, //переменная котора останавливает игру
+        gravity: 0,
+        intervalOfFallingPluses: 700,
+        plusFell: true,
+        timeWhenFunctionsDone: 0,
+        timeNow: 0,
+        score: 0, //внутренняя переменная в которой хранится значение счёта
         scoreSpeed: 0,
         scoreAnimSwitch: false,
         scoreAnimDo: false,
         scoreColorAlpha: 1,
-        gravity: 0,
+        scoreLeftBorder: config.scorePositionX-50,
+        scoreRightBorder: config.scorePositionX+50,
+        scoreMoveLeft: true,
+        scoreDecreasMarker: 0,
+        scoreMinusAnim: false,
         scoreAnimRemoveVariables: false,
-        scoreAnimMinusDo: false,
-        scoreAnimMinusNull: false,
-        IntervalOfFallingPluses: 700,
-        plusFell: true,
+        scoreMinusAnim: false,
+        scoreMinusAnimSpeed: 8,
     }
     //Подключение слушателей событий -----------------------------------------------------------------------------
     document.addEventListener("keydown", KeyDownHandler, false);
@@ -101,17 +109,21 @@
         state.greyPlus.shag = {}
         state.greyPlus.shag.x = Math.floor(Math.random() * (config.sizesForRandom.x));
         state.greyPlus.shag.y = Math.floor(Math.random() * (config.sizesForRandom.y));
-        state.sh.x = innerWidth / 2 - config.fontSize / 2
-        state.sh.y = innerHeight - config.fontSize
+        state.greyPlus.rotationStep = Math.random() * config.rotationRandomizer;
+        state.sh.x = config.shStartXPosition
+        state.sh.y = innerHeight - state.shRealSize.height
         state.sh.shag = {}
         state.sh.shag.x = Math.floor(Math.random() * (config.sizesForRandom.x));
         state.sh.shag.y = Math.floor(Math.random() * (config.sizesForRandom.y));
+        state.sh.angle = 0;
+        state.sh.rotationStep = Math.random() * config.rotationRandomizer;
+        // state.sh.pivot.x = state.shRealSize.width/2
+        // state.sh.pivot.y = state.shRealSize.height/2
         state.scoreObject.x = config.scorePositionX;
         document.body.appendChild(app.view);
         app.stage.addChild(state.scoreObject)
         app.stage.addChild(state.sh)
-        app.stage.addChild(state.greyPlus)
-    }
+        app.stage.addChild(state.greyPlus)}
     initialization();
     //Функция которая пушит плюсы для взрыва когда Ш убита -------------------------------------------------------
     function BoomPush() {
@@ -120,12 +132,12 @@
             let lastPlus = state.pluses.boom[state.pluses.boom.length - 1]
             lastPlus.x = state.pluses.onPlace[a].x;
             lastPlus.y = state.pluses.onPlace[a].y;
+            lastPlus.rotationStep = Math.random() * config.rotationRandomizer;
             lastPlus.xShag = Math.floor(Math.random() * config.sizesForRandom.x);
             lastPlus.yShag = Math.floor(Math.random() * config.sizesForRandom.y);
             state.pluses.gravity = 0.4;
             app.stage.addChild(lastPlus)
-        }
-    }
+        }}
     //Функция которая взрывает словленные плюсы ------------------------------------------------------------------
     function BlastPlusesNextSh() {
         if (state.pushPlusNextSh) {
@@ -137,48 +149,65 @@
                 state.score--;
             }
             state.pushPlusNextSh = false;
-        }
-    }
+        }}
     //Функция которая двигает плюсы во время взрыва Ш ------------------------------------------------------------
     function BoomPlusesMove() {
         for (let r = 0; r < state.pluses.boom.length; r++) {
             state.pluses.boom[r].x += state.pluses.boom[r].xShag;
             state.pluses.boom[r].y += state.pluses.boom[r].yShag;
             state.pluses.boom[r].yShag += state.pluses.gravity;
+            state.pluses.boom[r].rotation += state.pluses.boom[r].rotationStep
         }
-        DeletingGreyPlusesAfterBlast();
-    }
+        DeletingGreyPlusesAfterBlast();}
     //Функция которая удаляет мерые плюсы которые упали за канвас ------------------------------------------------
     function DeletingGreyPlusesAfterBlast() {
-        if (state.pluses.boom.map(({
-                y
-            }) => y).filter(a => a != undefined).every(a => a > innerHeight)) {
+        if (state.pluses.boom.map(({y}) => y).filter(a => a != undefined).every(a => a > innerHeight)) {
             for (let i = 0; i < state.pluses.boom.length; i++) {
                 state.pluses.boom.pop();
             }
-        }
-    }
+        }}
     //Функция которая заканчивает игру если плюс попал в букву Ш -------------------------------------------------
     function GameOver() {
         for (let i = 0; i < state.pluses.falling.length; i++) {
-            if (
-                state.pluses.falling[i].y < state.shRB.y &&
-                state.pluses.falling[i].y > state.shRB.y - state.shRB.h
-            ) {
-                if (state.pluses.falling[i].x > state.shRB.x && state.pluses.falling[i].x < state.shRB.x + state
-                    .shRB.w &&
-                    !state.pluses.falling[i].catched &&
-                    !state.pluses.falling[i].kill) {
+            let falling = state.pluses.falling[i]
+            let plusSize = state.plusRealSize
+            if (falling.y > state.shSizes.y - state.shSizes.h
+                && falling.y < state.shSizes.y) {
+                if ( falling.x > state.shSizes.x 
+                    && falling.x < state.shSizes.x + state.shSizes.w 
+                    && falling.x + plusSize.width > state.shSizes.x
+                    && falling.x + plusSize.width < state.shSizes.x + state.shSizes.w
+                    && !falling.catched 
+                    && !falling.kill) {
                     state.stop = true;
-                    app.stage.removeChild(state.pluses.falling[i])
-                }
+                    falling.kill = true;
+                    app.stage.removeChild(falling)}
+
+                 else if (falling.x > state.shSizes.x 
+                    && falling.x < state.shSizes.x + state.shSizes.w
+                    && !falling.catched 
+                    && !falling.kill) {
+                    state.stop = true;
+                    falling.kill = true;
+                    app.stage.removeChild(falling)}
+
+                 else if (falling.x + plusSize.width > state.shSizes.x
+                    && falling.x + plusSize.width < state.shSizes.x + state.shSizes.w
+                    && !falling.catched 
+                    && !falling.kill) {
+                    state.stop = true;
+                    falling.kill = true;
+                    app.stage.removeChild(falling)}   
             }
-        }
+        }   
     }
-     //Игровой счет -----------------------------------------------------------------------------------------------
+    //Игровой счет -----------------------------------------------------------------------------------------------
     function GameScore() {
         state.scoreObject.text = state.score
-    }
+        if(state.scoreAdd){
+            state.score+=1;
+        }
+        state.scoreAdd = false;}
     //Анимация взрыва плюсов -------------------------------------------------------------------------------------
     function GameOverBlastAnim() {
         for (let i = 0; i < state.pluses.onPlace.length; i++) {
@@ -186,40 +215,43 @@
             PlusOnPlace.x += PlusOnPlace.Xshag;
             PlusOnPlace.y += PlusOnPlace.Yshag;
             PlusOnPlace.Yshag += config.gravity;
+            PlusOnPlace.rotation += PlusOnPlace.rotationStep
         }
         state.sh.x += state.sh.shag.x;
         state.sh.y += state.sh.shag.y;
+        state.sh.rotation += state.sh.rotationStep
+        state.greyPlus.rotation += state.sh.rotationStep
         state.sh.shag.y += config.gravity;
         state.greyPlus.x += state.greyPlus.shag.x;
         state.greyPlus.y += state.greyPlus.shag.y;
-        state.greyPlus.shag.y += config.gravity;
-    }
+        state.greyPlus.shag.y += config.gravity;}
     //Функции-маркеры нажатых кнопок------------------------------------------------------------------------------
     function KeyDownHandler(e) {
-        if (e.keyCode == 39) {
+        if (e.keyCode === 39) {
             state.rightPressed = true;
         }
-        if (e.keyCode == 37) {
+        if (e.keyCode === 37) {
             state.leftPressed = true;
-        }
-    }
+        }}
     function KeyUpHandler(e) {
-        if (e.keyCode == 39) {
+        if (e.keyCode === 39) {
             state.rightPressed = false;
         }
-        if (e.keyCode == 37) {
+        if (e.keyCode === 37) {
             state.leftPressed = false;
-        }
-    }
+        }}
     //Функция которая меняет положение Ш если наажата стрелочка лево/право ---------------------------------------
     function MoveSh() {
-        if (state.rightPressed == true && state.sh.x + config.fontSize < innerWidth) {
-            state.sh.x += config.speed;
+        if (state.rightPressed === true && state.sh.x + config.fontSize < innerWidth) {
+            if(state.timeWhenFunctionsDone>=3)
+            {state.sh.x += config.shSpeed*state.timeWhenFunctionsDone;}
+            else{state.sh.x += config.shSpeed;}
         }
-        if (state.leftPressed == true && 0 < state.sh.x) {
-            state.sh.x -= config.speed;
-        }
-    }
+        if (state.leftPressed === true && 0 < state.sh.x) {
+            if(state.timeWhenFunctionsDone>=3)
+            {state.sh.x -= config.shSpeed*state.timeWhenFunctionsDone;}
+            else{state.sh.x -= config.shSpeed;}
+        }}
     //Функция которая создаёт новый плюс и закидывает его в массив------------------------------------------------
     function MakeFallingPlus() {
         state.pluses.falling.push(new PIXI.Text("+", config.styles.greenPlus));
@@ -227,32 +259,31 @@
         lastPlus.catched = false;
         lastPlus.onPlace = false;
         lastPlus.kill = false;
-        lastPlus.x = Math.floor(Math.random() * innerWidth - 100);
+        lastPlus.x = Math.floor(Math.random() * (innerWidth - 100)+100);
         lastPlus.y = -100;
         app.stage.addChild(lastPlus);
-        state.plusFell = true;
-    }
+        state.plusFell = true;}
     //Функция которая пушит первый плюс отдельно от других--------------------------------------------------------
     function PlusPushingLogic() {
         if (state.plusFell === true) {
-            setTimeout(MakeFallingPlus, state.IntervalOfFallingPluses);
+            setTimeout(MakeFallingPlus, state.intervalOfFallingPluses);
             state.plusFell = false;
-        }
-    }
+        }}
     //Функция которая пушит плюсы рядом с "Ш" --------------------------------------------------------------------
     function PlusOnPlace(X, Y) {
         state.pluses.onPlace.push(new PIXI.Text("+", config.styles.greenPlus))
         let lastPlus = state.pluses.onPlace[state.pluses.onPlace.length - 1]
         lastPlus.x = X;
         lastPlus.y = Y;
+        lastPlus.rotationStep = Math.random() * config.rotationRandomizer;
         lastPlus.shag = {};
         lastPlus.Xshag = Math.floor(Math.random() * config.sizesForRandom.x);
         lastPlus.Yshag = Math.floor(Math.random() * config.sizesForRandom.y);
-        app.stage.addChild(lastPlus)
-    }
+        app.stage.addChild(lastPlus)}
     //Анимация ловли плюсов --------------------------------------------------------------------------------------
     function PlusCatcherAnim() {
-        for (plus of state.pluses.onPlace) {
+        for (plus of state.pluses.falling) {
+            if(plus.catched){
             let shagY = (state.greyPlus.y - plus.y) / 6;
             let shagX = (state.greyPlus.x - plus.x) / 2;
 
@@ -271,44 +302,52 @@
                 plus.onPlace = true;
                 state.scoreAnimDo = true;
                 state.scoreAnimRemoveVariables = true;
-                state.score += 1
+                state.scoreAdd = true;
+                PlusOnPlace(plus.x, plus.y)
+                app.stage.removeChild(plus)
+                state.scoreDecreasMarker += 1;
             }
+            }
+        }}
+    function sayIfScoreDecreased(){
+        if(state.scoreDecreasMarker > state.score){
+            state.scoreMinusAnim = true;
+            state.scoreDecreasMarker = state.score;
         }
     }
     //Функция которая двигает падающие плюсы----------------------------------------------------------------------
     function PlusMover() {
         for (let i = 0; i < state.pluses.falling.length; i++) {
             if (!state.pluses.falling[i].catched) {
-                state.pluses.falling[i].y += config.fontSize / 25;
+                if(state.timeWhenFunctionsDone >=3 )
+                {state.pluses.falling[i].y += config.fallingPlusesSpeed * state.timeWhenFunctionsDone;                   }
+                else {state.pluses.falling[i].y += config.fallingPlusesSpeed; }
             }
-        }
-    }
+        }}
     //Функция которая удаляет падающий плюс и пушит плюс рядом с "Ш" ---------------------------------------------
     function PlusCatcher() {
         for (let i = 0; i < state.pluses.falling.length; i++) {
+            let fallin = state.pluses.falling[i]
             if (
-                state.pluses.falling[i].y < innerHeight - config.fontSize / 2.5 &&
-                state.pluses.falling[i].y > innerHeight - config.fontSize * 2.5 &&
-                state.pluses.falling[i].catched == false
+                fallin.y < innerHeight - config.fontSize / 2.5 &&
+                fallin.y > innerHeight - config.fontSize * 2.5 &&
+                fallin.catched === false
             ) {
                 if (
-                    state.pluses.falling[i].x > state.greyPlus.x - config.fontSize / 2 &&
-                    state.pluses.falling[i].x < state.greyPlus.x + config.fontSize / 2 &&
-                    !state.pluses.falling[i].kill
+                    fallin.x > state.greyPlus.x - config.fontSize / 2 &&
+                    fallin.x < state.greyPlus.x + config.fontSize / 2 &&
+                    !fallin.kill
                 ) {
-                    state.pluses.falling[i].catched = true;
-                    app.stage.removeChild(state.pluses.falling[i])
-                    PlusOnPlace(state.pluses.falling[i].x, state.pluses.falling[i].y)
+                    fallin.catched = true;
                 }
             }
-        }
-    }
+        }}
     //Функция которая анимирует счет когда плюс словлен ----------------------------------------------------------
     function ScoreAnimPlus() {
         if (state.scoreColorAlpha < 1) {
             state.scoreObject.style.fill = 'rgba(0,128,0,' + state.scoreColorAlpha + ')';
             state.scoreColorAlpha += 0.05;
-            state.scoreObject.style.stroke = 'rgba(0,0,0,' + state.scoreColorAlpha + ')';
+            state.scoreObject.style.stroke = 'rgba(0,128,0,' + state.scoreColorAlpha + ')';
 
         }
         if (state.scoreObject.y >= config.fontSize) {
@@ -324,22 +363,36 @@
             state.scoreSpeed += state.gravity;
             state.gravity += 0.04;
 
-        }
-    }
-    //Функция которая анимирует счет когда плюс потерян ----------------------------------------------------------
-    function ScoreAnimMinusCall() {
-        if (state.scoreAnimMinusNull) {
-            state.scoreObject.style.stroke = 'rgba(0,0,0,0)'
-            state.scoreColorAlpha = 0;
-            state.scoreAnimMinusDo = true;
-            state.scoreAnimMinusNull = false;
-        }
-        ScoreAnimMinus();
-    }
+        }}
     //Функция которая анимирует счет когда плюс потерян ----------------------------------------------------------
     function ScoreAnimMinus() {
-        if (state.scoreAnimMinusDo) {
-
+        if (state.scoreMinusAnim) {
+            let movingLength = state.scoreRightBorder - state.scoreLeftBorder;
+            if(state.scoreMoveLeft === true) {
+                state.scoreObject.x -= state.scoreMinusAnimSpeed;
+            }
+            else {
+                state.scoreObject.x += state.scoreMinusAnimSpeed;
+            }
+            if(state.scoreRightBorder - state.scoreObject.x<state.scoreObject.x-state.scoreLeftBorder){
+                state.scoreMinusAnimSpeed--;
+            }
+            else{
+                state.scoreMinusAnimSpeed++;
+            }
+            if(state.scoreObject.x <= state.scoreLeftBorder){
+                state.scoreRightBorder = state.scoreRightBorder - Math.floor((movingLength)*0.1);
+                state.scoreMoveLeft = false;
+            }
+            if(state.scoreObject.x >= state.scoreRightBorder){
+                state.scoreLeftBorder += Math.floor((movingLength)*0.1);
+                state.scoreMoveLeft = true;
+            }
+            if(movingLength<=20)
+            {
+                state.scoreMinusAnim = false;
+            }
+            console.log((state.scoreRightBorder - state.scoreLeftBorder))
         }
     }
     //Функция которая обнуляпт переменные счета перед анимацией --------------------------------------------------
@@ -353,51 +406,55 @@
             state.scoreAnimSwitch = false;
             state.scoreAnimRemoveVariables = false;
         }
-        ScoreAnimPlus();
-    }
+        ScoreAnimPlus();}
     //Функция которая говорит номер выбитого плюса ---------------------------------------------------------------
     function SayNumberKnockedPlus() {
         for (let i = 0; i < state.pluses.falling.length; i++) {
             for (let a = 0; a < state.pluses.onPlace.length; a++) {
-                if (state.pluses.onPlace[a].x < state.pluses.falling[i].x + config.shPlDist / 2 &&
-                    state.pluses.onPlace[a].x + config.shPlDist > state.pluses.falling[i].x + config.shPlDist / 2 &&
-                    !state.pluses.falling[i].catched && !state.pluses.falling[i].kill) {
-                    if (state.pluses.onPlace[a].y > state.pluses.falling[i].y && state.pluses.onPlace[a].y - config.shPlDist < state.pluses.falling[i].y) {
+                let onPlace = state.pluses.onPlace[a]
+                let falling = state.pluses.falling[i]
+                let plusDist = config.catchedPlusesDist
+                if (onPlace.x < falling.x + plusDist / 2 
+                    && onPlace.x + plusDist > falling.x + plusDist / 2 
+                    && !falling.catched 
+                    && !falling.kill) {
+                    if (onPlace.y > falling.y 
+                        && onPlace.y - plusDist < falling.y) {
                         state.deadPlus = a + 1;
                         state.pushPlusNextSh = true;
-                        state.pluses.falling[i].kill = true;
-                        app.stage.removeChild(state.pluses.falling[i])
+                        falling.kill = true;
+                        app.stage.removeChild(falling)
 
                     }
                 }
             }
-        }
-    }
+        }}
      //Функция которая обновляет переменные -----------------------------------------------------------------------
     function Update() {
-        state.shRB.x = state.sh.x - config.fontSize / 2
-        state.shRB.y = state.sh.y + config.fontSize / 3
-        state.shRB.w = config.fontSize
-        state.shRB.h = config.fontSize
+        state.shSizes.w = state.shRealSize.width
+        state.shSizes.h = state.shRealSize.height
+        state.shSizes.x = state.sh.x
+        state.shSizes.y = state.sh.y + state.shRealSize.height / 2   
         for (let i = 0; i < state.pluses.falling.length; i++) {
             if (state.pluses.falling[i].y > innerHeight) {
                 state.pluses.falling.splice(i, 1)
             }
         }
         if (state.pluses.onPlace.length > 0) {
-            state.greyPlus.x = state.sh.x + config.greyDist + (config.shPlDist * (state.score + 1))
+            state.greyPlus.x = state.sh.x + config.greyDist + (config.catchedPlusesDist * (state.pluses.onPlace.length+1))
             state.greyPlus.y = state.sh.y
             for (let i = 0; i < state.pluses.onPlace.length; i++) {
-                state.pluses.onPlace[i].x = state.sh.x + config.greyDist + (config.shPlDist * (1 + i))
+                state.pluses.onPlace[i].x = state.sh.x + config.greyDist + (config.catchedPlusesDist * (1 + i))
             }
         } else {
-            state.greyPlus.x = state.sh.x + config.greyDist + config.shPlDist * (state.score + 1)
+            state.greyPlus.x = state.sh.x + config.greyDist + config.catchedPlusesDist * (state.pluses.onPlace.length+1)
             state.greyPlus.y = state.sh.y
-        }
-    }
+        }}
     //Вызов функций ----------------------------------------------------------------------------------------------
     app.ticker.add(() => {
-        if (state.stop == false) {
+          state.timeNow = Date.now()
+        if (state.stop === false) {
+            //sayIfScoreDecreased();
             PlusCatcher();
             GameScore();
             BlastPlusesNextSh();
@@ -409,10 +466,12 @@
             PlusCatcherAnim();
             SayNumberKnockedPlus();
             ScoreVariablesRemove();
+            ScoreAnimMinus();
         } else {
             GameOverBlastAnim();
         }
         GameOver();
+        state.timeWhenFunctionsDone = Date.now() - state.timeNow
     });
     </script>
 </body>
