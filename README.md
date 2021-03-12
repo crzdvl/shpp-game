@@ -1,6 +1,4 @@
 
-gHELLO worldWWWW
-hey guys
-aaaaaaaaaaaaaaaa
+Game developed by ddteam
 # shppGame
 
