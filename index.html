@@ -521,11 +521,14 @@ function GoldPlus() {
         for (let i = 0; i < length; i++) {
             let plus = state.pluses.onPlace[i];
             let tr = state.pluses.Transform
+            let lTr = tr[tr.length - 1]
             tr.push(new PIXI.Text("+", config.styles.greenPlus))
             tr[tr.length - 1].x = plus.x
             tr[tr.length - 1].y = plus.y
             app.stage.addChild(tr[tr.length - 1])
             app.stage.removeChild(plus)
+            lTr.S = {x:config.center.x-lTr.x,y:config.center.y-lTr.y}
+            lTr.V = {x:lTr.S.x/1000,y:lTr.S.y/1000}
         }
         state.canAnimTransform = true
         for (let i = 0; i < length; i++) {
@@ -538,8 +541,8 @@ function GoldPlAnim() {
     if (state.canAnimTransform === true) {
         for (let i = 0; i < state.pluses.Transform.length; i++) {
             let animpl = state.pluses.Transform[i];
-            animpl.x -= (animpl.x - config.center.x) / config.animGoldPlusSpeed
-            animpl.y += (config.center.y - animpl.y) / config.animGoldPlusSpeed
+            animpl.x += V.x
+            animpl.y += V.y
         }
     }
 }
