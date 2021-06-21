@@ -494,11 +494,11 @@
         //Анимация ловли плюсов --------------------------------------------------------------------------------------
         function CatcherAnimCaller() {
             CatcherAnimSmth(state.pluses.falling)
-            CatcherAnimSmth(state.pluses.rotate)
         }
 
-        function CatcherAnimSmth(a) {
-            let pluses = a;
+        function CatcherAnimSmth(y) {
+            let pluses = y;
+            if(state.pluses.falling.length > 1){
             for (plus of pluses) {
                 if (plus.catched) {
                     let shagY = (state.greyPlus.y - plus.y) / 6;
@@ -527,6 +527,7 @@
                 }
             }
         }
+    }
 
         function sayIfScoreDecreased() {
             if (state.scoreDecreasMarker > state.score) {
@@ -848,9 +849,6 @@
                     GoldPlAnim();
                     GoldCatcher();
                     difficultGame();
-                    if (state.pluses.rotate.length > 0) {
-                        console.log(state.pluses.rotate[0].x);
-                    }
                 } else {
                     GameOverBlastAnim();
                 }
