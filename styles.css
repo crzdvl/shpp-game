@@ -1,0 +1,23 @@
+#background {
+		position: absolute;
+        width: 100%;
+        transition: background-color 2s;
+        height: 100%;
+        background-color: #DAF7A6;
+        resize: both;
+        overflow: hidden;
+}
+#start {
+	overflow: hidden;
+    font-family: "Play";
+    vertical-align: middle;
+    text-align: center;
+    position: absolute;
+    resize: both;
+    overflow: hidden;
+    transition: all 4s;
+    color: rgba(0,0,0,1);
+}
+::-webkit-scrollbar {
+    display: none;
+}

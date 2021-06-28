@@ -13,7 +13,7 @@ function ScoreAnimPlus() {
         state.scoreObject.style.stroke = 'rgba(0,128,0,' + state.scoreColorAlpha + ')';
 
     }
-    if(state.scoreObject.y >= config.fontSize) {
+    if(state.scoreObject.y >= state.fontSize) {
         state.scoreSpeed = -10;
         state.scoreAnimSwitch = true;
 

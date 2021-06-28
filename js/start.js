@@ -1,20 +1,6 @@
 function Start() {
-    state.startText = document.createElement('div');
-    state.startText.id = 'start'
-    state.startText.style.overflow = 'hidden'
-    state.startText.style.fontFamily = "Play"
-    state.startText.innerHTML = config.replics.start[state.replic]
-    state.startText.style.verticalAlign = 'middle'
-    state.startText.style.textAlign = 'center'
-    state.startText.style.lineHeight = innerHeight + 'px'
-    state.startText.style.fontSize = 100 + "px"
-    state.startText.style.position = "absolute"
-    state.startText.style.width = innerWidth + "px";
-    state.startText.style.height = innerHeight + "px";
-    state.startText.style.transition = 'all 4s'
-    state.startText.style.color = "rgba(0,0,0,1)"
-
-    document.body.appendChild(state.startText)
+    state.startText = document.getElementById('start');
+    state.startText.innerHTML = config.replics.start[0]
     state.move = 5;
 }
 state.startGame = false
@@ -26,7 +12,7 @@ function animStartText() {
         state.startText.style.transition = "all " + state.startTextTime + "s"
         state.startText.style.color = "rgba(0,0,0,0)"
         state.startText.style.filter = "blur(5px)"
-        state.startText.style.transform = "scale(1.5)"
+       // state.startText.style.transform = "scale(1.5)"
     }
     if (state.startGame) {
         state.startText.innerHTML = ""

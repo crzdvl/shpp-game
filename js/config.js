@@ -15,7 +15,6 @@
             catchedPlusesDist: (Width / 10) / 1.5, 
             greyDist: (Width / 10) / 2.5, //dist between sh and grey plua
             gravity: 0.4, 
-            fontSize: Width / 10, 
             fallingPlusesSpeed: (Width / 250), 
             shStartXPosition: Width / 2 - (Width / 10) / 2, 
             shSpeed: Math.floor((Width / 10) * 0.2), 
