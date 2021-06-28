@@ -180,6 +180,7 @@
                 state.greyPlus.y = state.sh.y
                 for (let i = 0; i < state.pluses.caughtPluses.length; i++) {
                     state.pluses.caughtPluses[i].x = state.sh.x + config.greyDist + (config.catchedPlusesDist * (1 + i + state.catchedGoldPluses))
+                    state.pluses.caughtPluses[i].y = state.sh.y
                 }
             } else {
                 state.greyPlus.x = state.sh.x + config.greyDist + config.catchedPlusesDist * (state.pluses.caughtPluses.length + 1 + state.catchedGoldPluses)
@@ -187,9 +188,11 @@
             }
         }
         app.ticker.add(() => {
+        	if(state.startGame){
                  if (!state.stop) {
                      PlusCatcher();
                      GoldPlusMove();
+                     //console.log(true)
                      GameScore();
                      BlastPlusesNextSh();
                      Update();
@@ -209,10 +212,9 @@
                     GameOverBlastAnim();
                 }
                 GameOver();
-                state.timeWhenFunctionsDone = Date.now() - state.timeNow
-                        	               // state.timeNow = Date.now()
-
-            });
+                state.timeWhenFunctionsDone = 0
+            }
+         		});
     </script>
 </body>
 </html>

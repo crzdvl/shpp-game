@@ -8,6 +8,3 @@ const app = new PIXI.Application({
 console.log(app);
 app.renderer.view.style.position = "absolute"
 let Width = innerWidth, H;
-
-//window.addEventListener('resize', onResize);
-console.log(Width)

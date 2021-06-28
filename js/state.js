@@ -68,5 +68,3 @@ function initialization() {
             app.stage.addChild(state.sh)
             app.stage.addChild(state.greyPlus)
         }
-
-initialization();

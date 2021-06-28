@@ -57,9 +57,10 @@
         }
 
         function CreateFallingPlus() {if(!state.stop){
-            state.pluses.falling.push(new PIXI.Text("+", config.styles.greenPlus));
-            let lastPlus = state.pluses.falling[state.pluses.falling.length - 1];
-            createPlus(lastPlus)
+            if(state.startGame)
+            {state.pluses.falling.push(new PIXI.Text("+", config.styles.greenPlus));
+                        let lastPlus = state.pluses.falling[state.pluses.falling.length - 1];
+                        createPlus(lastPlus)}
             setTimeout(CreateFallingPlus, state.intervalOfFallingPluses.falling);
         }
     }

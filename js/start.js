@@ -1,6 +1,8 @@
 function Start() {
     state.startText = document.getElementById('start');
     state.startText.innerHTML = config.replics.start[0]
+    state.startText.style.fontSize = 50 + "px"
+    state.startText.style.lineHeight = innerHeight + 'px'
     state.move = 5;
 }
 state.startGame = false
@@ -12,7 +14,6 @@ function animStartText() {
         state.startText.style.transition = "all " + state.startTextTime + "s"
         state.startText.style.color = "rgba(0,0,0,0)"
         state.startText.style.filter = "blur(5px)"
-       // state.startText.style.transform = "scale(1.5)"
     }
     if (state.startGame) {
         state.startText.innerHTML = ""
@@ -21,7 +22,7 @@ function animStartText() {
 
 function nullAnimStartText() {
     if(!state.startGame) {
-        state.replic++;
+    state.replic++;
     state.startText.style.transition = "none"
     state.startText.style.filter = "none"
     state.startText.style.transform = "scale(1)"
@@ -38,6 +39,7 @@ function nullAnimStartText() {
     //  state.animSpeed = 2
     // }
     if (state.replic > 6) {
+        initialization();
         state.startGame = true
         state.startTextTime = 1
         state.startText.innerHTML = ""
@@ -64,4 +66,5 @@ if (state.animSpeed == 1) {
 function skipStart() {
     state.startGame = true;
     state.startText.innerHTML = ""
+    initialization();
 }
