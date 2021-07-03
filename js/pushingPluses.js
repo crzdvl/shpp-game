@@ -56,14 +56,17 @@
             app.stage.addChild(lastPlus);
         }
 
-        function CreateFallingPlus() {if(!state.stop){
-            if(state.startGame)
-            {state.pluses.falling.push(new PIXI.Text("+", config.styles.greenPlus));
-                        let lastPlus = state.pluses.falling[state.pluses.falling.length - 1];
-                        createPlus(lastPlus)}
-            setTimeout(CreateFallingPlus, state.intervalOfFallingPluses.falling);
+        function CreateFallingPlus() {
+            if (!state.stop) {
+                if (state.startGame) {
+                    state.pluses.falling.push(new PIXI.Text("+", config.styles.greenPlus));
+                    let lastPlus = state.pluses.falling[state.pluses.falling.length - 1];
+                    createPlus(lastPlus)
+                }
+                setTimeout(CreateFallingPlus, state.intervalOfFallingPluses.falling);
+            }
         }
-    }
+        
         CreateFallingPlus(); //Функция которая пушит первый плюс отдельно от других--------------------------------------------------------
         //Функция которая пушит плюсы рядом с "Ш" --------------------------------------------------------------------
         function PlusCaught(X, Y) {
