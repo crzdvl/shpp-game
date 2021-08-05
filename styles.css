@@ -7,6 +7,7 @@
         resize: both;
         overflow: hidden;
 }
+canvas {position:absolute;}
 #start {
 	overflow: hidden;
     font-family: "Play";
@@ -19,6 +20,56 @@
     overflow: hidden;
     transition: all 4s;
     color: rgba(0,0,0,1);
+}
+#ButtonPlay {
+    left:15%;
+    top:15%;
+    font-family: 'Play';
+    font-size: 300%;
+    border-radius: 2%;
+    margin: auto;
+    width: 70%;
+    vertical-align: middle;
+    text-align: center;
+    height: 20%;
+    color: black;
+    z-index: 10;
+    position: absolute;
+    transition: 0.5s;
+    background-color: rgb(173, 173, 173);
+}
+#ButtonGoBack {
+    left:15%;
+    top:45%;
+    font-family: 'Play';
+    border-radius: 2%;
+    font-size: 300%;
+    margin: auto;
+    width: 70%;
+    height: 20%;
+    vertical-align: middle;
+    text-align: center;
+    color: black;
+    z-index: 10;
+    transition: 0.5s;
+    position: absolute;
+    background-color: rgb(173, 173, 173);
+}
+html, body {height:100%; width:100%;}
+#MenuBackground {
+ left:30%;
+ top:15%;
+ border-style: solid;
+ border-color: dimgrey;
+ border-radius: 1%;
+ border-width: 0.5%;
+ margin: auto;
+ width: 40%;
+ height: 70%;
+ color: black;
+ z-index: 10;
+ position: absolute;
+ background-color: gray;
 }
 ::-webkit-scrollbar {
     display: none;

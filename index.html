@@ -20,6 +20,9 @@
 <body>
 <div id="background"></div>
 <div id="start"></div>
+<div id="MenuBackground">
+<div id="ButtonPlay" onmouseover="changeColor('ButtonPlay', 1)" onmouseout="changeColor('ButtonPlay', 0)">Грати знову</div>
+<div id="ButtonGoBack" onmouseover= "changeColor('ButtonGoBack', 1)" onmouseout="changeColor('ButtonGoBack', 0)" >Повернутися</div></div>
 <script src="https://pixijs.download/v6.1.0-rc.2/pixi.js"></script>
 <script src="js/gameLogic.js"></script>
 <script src="js/config.js"></script>
@@ -32,6 +35,18 @@
 <script src="js/blastPluses.js"></script>
 <link rel="stylesheet" href="styles.css">
     <script>
+        function changeColor(a,b){
+            if( b == 1)
+            {console.log(0)
+            let q = document.getElementById(a)
+            q.style.backgroundColor = "black"}
+            if( b == 0)
+            {
+            let y = document.getElementById(a)
+            y.style.backgroundColor = "white"
+            console.log(true)
+            }
+        }
         let di = document.getElementById("background")
         function KeyDownHandler(e) {
             if (e.keyCode === 39) {
