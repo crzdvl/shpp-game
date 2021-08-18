@@ -21,7 +21,7 @@
 <div id="background"></div>
 <div id="start"></div>
 <div id="MenuBackground">
-<div id="ButtonPlay">Грати знову</div>
+<div id="ButtonPlay" onclick="restart()">Грати знову</div>
 <div id="ButtonGoBack">Повернутися</div>
 <div id="menuCircleAnim1"></div>
 <div id="menuCircleAnim2"></div>
@@ -40,6 +40,9 @@
 <script src="js/blastPluses.js"></script>
 <link rel="stylesheet" href="styles.css">
     <script>
+        function restart(){
+            initialization();
+        }
         function changeColor(a,b){
             if( b == 1)
             {console.log(0)

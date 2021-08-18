@@ -49,14 +49,14 @@ function nullAnimStartText() {
 }
 state.animSpeed = 1;
 if (state.animSpeed == 1) {
-    setInterval(() => {
+   var id1 = setInterval(() => {
         animStartText();
         setTimeout(() => {
             nullAnimStartText();
         }, state.startTextTime * 1000 + 80)
     }, state.startTextTime * 1000 + 100)
 } else {
-    setInterval(() => {
+  var id2 = setInterval(() => {
         animStartText();
         setTimeout(() => {
             nullAnimStartText();
@@ -64,6 +64,8 @@ if (state.animSpeed == 1) {
     }, state.startTextTime * 1000 + 100)
 }
 function skipStart() {
+    clearInterval(id1)
+    clearInterval(id2)
     state.startGame = true;
     state.startText.innerHTML = ""
     initialization();

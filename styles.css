@@ -83,7 +83,7 @@ canvas {position:absolute;}
 }
 #ButtonPlay {
     left:15%;
-    top:15%;
+    top: 20%;
     font-weight: bolder;
     font-family: 'Play';
     font-size: 240%;
@@ -101,7 +101,7 @@ canvas {position:absolute;}
 }
 #ButtonGoBack {
     left:15%;
-    top:45%;
+    top:60%;
     font-weight: bolder;
     font-family: 'Play';
     font-size: 240%;
