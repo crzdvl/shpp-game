@@ -13,20 +13,22 @@
             overflow:hidden;
         }
     </style>
-     <link rel = "icon" href = 
+    <link rel = "icon" href = 
 "https://media.geeksforgeeks.org/wp-content/cdn-uploads/gfg_200X200.png" 
         type = "image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <div id="background"></div>
 <div id="start"></div>
 <div id="MenuBackground">
-<div id="ButtonPlay" onclick="restart()">Грати знову</div>
-<div id="ButtonGoBack">Повернутися</div>
-<div id="menuCircleAnim1"></div>
-<div id="menuCircleAnim2"></div>
-<div id="shppIcon1">Ш</div>
-<div id="shppIcon2">++</div></div>
+    <div id="ButtonPlay" onclick="restart()">Грати знову</div>
+    <div id="ButtonGoBack">Повернутися</div>
+    <div id="menuCircleAnim1"></div>
+    <div id="menuCircleAnim2"></div>
+    <div id="shppIcon1">Ш</div>
+    <div id="shppIcon2">++</div>
+</div>
 
 <script src="https://pixijs.download/v6.1.0-rc.2/pixi.js"></script>
 <script src="js/gameLogic.js"></script>
@@ -79,7 +81,7 @@
         document.addEventListener("keydown", KeyDownHandler, false);
         document.addEventListener("keyup", KeyUpHandler, false);
         function MoveSh() {
-            if (state.rightPressed && state.sh.x + state.fontSize < innerWidth) {
+            if (state.rightPressed && state.sh.x + config.fontSize < config.width) {
 
                 state.sh.x += config.shSpeed;
 
@@ -160,21 +162,7 @@
         }
         function difficultGame() {
             state.difficult = state.pluses.gold.length
-            if (state.difficult === 0) {
-                di.style.backgroundColor = "#DAF7A6";
-            }
-            if (state.difficult === 1) {
-                di.style.backgroundColor = "#FFDA62";
-            }
-            if (state.difficult === 2) {
-                di.style.backgroundColor = "#FF937B";
-            }
-            if (state.difficult === 3) {
-                di.style.backgroundColor = "#C70039";
-            }
-            if (state.difficult === 4) {
-                di.style.backgroundColor = "#900C3F";
-            }
+            di.style.backgroundColor = (["#DAF7A6", "#FFDA62", "#FF937B", "#C70039", "#900C3F"])[state.difficult];
         }
         function Update() {
             state.shSizes.w = state.shRealSize.width

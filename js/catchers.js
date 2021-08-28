@@ -95,15 +95,15 @@ function catchSmth(a, b) {
     for (let i = 0; i < a; i++) {
         let fallin = b[i];
         if (
-            fallin.y < innerHeight - state.fontSize / 2.5 &&
-            fallin.y > innerHeight - state.fontSize * 2.5 &&
+            fallin.y < innerHeight - config.fontSize / 2.5 &&
+            fallin.y > innerHeight - config.fontSize * 2.5 &&
             !fallin.catched &&
             state.allGoldCatched
 
         ) {
             if (
-                fallin.x > state.greyPlus.x - state.fontSize / 2 &&
-                fallin.x < state.greyPlus.x + state.fontSize / 2 &&
+                fallin.x > state.greyPlus.x - config.fontSize / 2 &&
+                fallin.x < state.greyPlus.x + config.fontSize / 2 &&
                 !fallin.kill
             ) {
                 fallin.catched = true;

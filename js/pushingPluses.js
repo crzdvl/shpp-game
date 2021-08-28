@@ -51,7 +51,7 @@
                 state.intervalOfFallingPluses.falling = 150
             }
             lastPlus.rotationStep = round((Math.random() * config.rotationRandomizer), 2)
-            lastPlus.x = Math.floor(Math.random() * (innerWidth - 100) + 100);
+            lastPlus.x = Math.floor(Math.random() * (config.width - 100) + 100);
             lastPlus.y = -100;
             app.stage.addChild(lastPlus);
         }

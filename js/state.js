@@ -75,7 +75,6 @@ function initialization() {
                 scoreObject: new PIXI.Text("0", config.styles.score),
                 sh: new PIXI.Text("Ш", config.styles.sh),
                 greyPlus: new PIXI.Text("+", config.styles.grayPlus),
-                fontSize: Width / 10, 
                 deadPlus: {
                     value: 0
                 }, //number dead plus

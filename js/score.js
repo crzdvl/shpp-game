@@ -15,7 +15,7 @@ function ScoreAnimPlus() {
         state.scoreObject.style.stroke = 'rgba(0,128,0,' + state.scoreColorAlpha + ')';
 
     }
-    // if(state.scoreObject.y >= state.fontSize) {
+    // if(state.scoreObject.y >= config.fontSize) {
     //     state.scoreSpeed = -10;
     //     state.scoreAnimSwitch = true;
 
@@ -34,9 +34,9 @@ function ScoreAnimPlus() {
     const time = Date.now()
 
     if (time > state.scoreAnimationStart + duration)
-        state.scoreObject.y = state.fontSize
+        state.scoreObject.y = config.fontSize
     else
-        state.scoreObject.y = state.fontSize - Math.sin( (time - state.scoreAnimationStart) / duration * Math.PI ) * state.fontSize * 0.2
+        state.scoreObject.y = config.fontSize - Math.sin( (time - state.scoreAnimationStart) / duration * Math.PI ) * config.fontSize * 0.2
 }
 function AddScoreAnimation() {
     state.scoreAnimationStart = Date.now();

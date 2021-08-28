@@ -156,7 +156,7 @@ canvas {position:absolute;}
 }
 html, body {height:100%; width:100%;}
 #MenuBackground {
- left:30%;
+ left: 30000000%;
  overflow:hidden;
  top:15%;
  border-style: solid;
