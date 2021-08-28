@@ -1,59 +1,24 @@
 #background {
-		position: absolute;
-        width: 100%;
-        transition: background-color 2s;
-        height: 100%;
-        background-color: #DAF7A6;
-        resize: both;
-        overflow: hidden;
+    position: absolute;
+    width: 100%;
+    transition: background-color 2s;
+    height: 100%;
+    background-color: #DAF7A6;
+    resize: both;
+    overflow: hidden;
 }
-canvas {position:absolute;}
+
+canvas {
+    position: absolute;
+}
+
 #menuCircleAnim1 {
-    border-radius:50%;
-    width:20%;
-    height:0;
-    padding-bottom:20%;
-    top:90%;
-    left:90%;
-    overflow:hidden;
-    position:absolute;
-    border: 2px dashed;
-    background-color: green;
-    animation: spin infinite;
-    animation-duration: 5000ms;
-}
-#shppIcon1 {
- height:10%;
- width:10%;
- top:2%;
- left:40%;
- font-weight: bolder;
- font-size: 240%;
- line-height: 100%;
- position:absolute;
- text-align: center;
- font-family: Arial, Helvetica, sans-serif;
-}
-#shppIcon2 {
-    font-weight: bolder;
-    height:10%;
-    width:10%;
-    top:2%;
-    left:47.5%;
-    font-size: 240%;
-    line-height: 100%;
-    position:absolute;
-    text-align: center;
-    color:green;
-    font-family: Arial, Helvetica, sans-serif;
-   }
-#menuCircleAnim2 {
-    border-radius:50%;
-    width:20%;
-    height:0;
-    padding-bottom:20%;
-    top:-12%;
-    left:-12%;
+    border-radius: 50%;
+    width: 20%;
+    height: 0;
+    padding-bottom: 20%;
+    top: 90%;
+    left: 90%;
     overflow: hidden;
     position: absolute;
     border: 2px dashed;
@@ -61,16 +26,61 @@ canvas {position:absolute;}
     animation: spin infinite;
     animation-duration: 5000ms;
 }
+
+#shppIcon1 {
+    height: 10%;
+    width: 10%;
+    top: 2%;
+    left: 40%;
+    font-weight: bolder;
+    font-size: 240%;
+    line-height: 100%;
+    position: absolute;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#shppIcon2 {
+    font-weight: bolder;
+    height: 10%;
+    width: 10%;
+    top: 2%;
+    left: 47.5%;
+    font-size: 240%;
+    line-height: 100%;
+    position: absolute;
+    text-align: center;
+    color: green;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#menuCircleAnim2 {
+    border-radius: 50%;
+    width: 20%;
+    height: 0;
+    padding-bottom: 20%;
+    top: -12%;
+    left: -12%;
+    overflow: hidden;
+    position: absolute;
+    border: 2px dashed;
+    background-color: green;
+    animation: spin infinite;
+    animation-duration: 5000ms;
+}
+
 @keyframes spin {
     from {
-        transform:rotate(0deg);
+        transform: rotate(0deg);
     }
+
     to {
-        transform:rotate(360deg);
+        transform: rotate(360deg);
     }
 }
+
 #start {
-	overflow: hidden;
+    overflow: hidden;
     font-family: "Play";
     width: 100%;
     height: 100%;
@@ -79,10 +89,11 @@ canvas {position:absolute;}
     resize: both;
     overflow: hidden;
     transition: all 4s;
-    color: rgba(0,0,0,1);
+    color: rgba(0, 0, 0, 1);
 }
+
 #ButtonPlay {
-    left:15%;
+    left: 15%;
     top: 20%;
     font-weight: bolder;
     font-family: 'Play';
@@ -99,9 +110,10 @@ canvas {position:absolute;}
     transition: 0.5s;
     background-color: rgb(173, 173, 173);
 }
+
 #ButtonGoBack {
-    left:15%;
-    top:60%;
+    left: 15%;
+    top: 60%;
     font-weight: bolder;
     font-family: 'Play';
     font-size: 240%;
@@ -116,61 +128,78 @@ canvas {position:absolute;}
     position: absolute;
     background-color: rgb(173, 173, 173);
 }
-#ButtonGoBack:hover,#ButtonPlay:hover {
+
+#ButtonGoBack:hover,
+#ButtonPlay:hover {
     background-color: palegreen;
 }
-#ButtonGoBack::before,#ButtonPlay::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  transition: all 0.3s;
-}
-#ButtonGoBack:hover::before,#ButtonPlay:hover::before {
-    background-color: palegreen;
-    opacity:0;
-    transform: scale(1.3,1.3); 
-}
-#ButtonGoBack::after, #ButtonPlay::after {
+
+#ButtonGoBack::before,
+#ButtonPlay::before {
     content: '';
-    position: absolute;
-    border: 2px solid;
-    border-color: rgb(108, 196, 108);
-    transition:0.5s;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
-    transform: scale(1.2,1.2);
-    opacity:0
+    transition: all 0.3s;
 }
-#ButtonGoBack:hover::after,#ButtonPlay:hover::after{
-    transform: scale(1,1);
+
+#ButtonGoBack:hover::before,
+#ButtonPlay:hover::before {
+    background-color: palegreen;
+    opacity: 0;
+    transform: scale(1.3, 1.3);
+}
+
+#ButtonGoBack::after,
+#ButtonPlay::after {
+    content: '';
+    position: absolute;
+    border: 2px solid;
+    border-color: rgb(108, 196, 108);
+    transition: 0.5s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transform: scale(1.2, 1.2);
+    opacity: 0
+}
+
+#ButtonGoBack:hover::after,
+#ButtonPlay:hover::after {
+    transform: scale(1, 1);
     opacity: 1;
-    
+
 }
-html, body {height:100%; width:100%;}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
 #MenuBackground {
- left:30%;
- overflow:hidden;
- top:15%;
- border-style: solid;
- border-color: dimgrey;
- border-radius: 1%;
- border-width: 0.5%;
- margin: auto;
- width: 40%;
- height: 70%;
- color: black;
- z-index: 10;
- position: absolute;
- background-color: gray;
+    left: 30%;
+    overflow: hidden;
+    top: 15%;
+    border-style: solid;
+    border-color: dimgrey;
+    border-radius: 1%;
+    border-width: 0.5%;
+    margin: auto;
+    width: 40%;
+    height: 70%;
+    color: black;
+    z-index: 10;
+    position: absolute;
+    background-color: gray;
 }
+
 ::-webkit-scrollbar {
     display: none;
 }
