@@ -1,7 +1,7 @@
 #background {
     position: absolute;
     width: 100%;
-    transition: background-color 2s;
+    /* transition: background-color 2s; */
     height: 100%;
     background-color: #DAF7A6;
     resize: both;
@@ -88,7 +88,7 @@ canvas {
     position: absolute;
     resize: both;
     overflow: hidden;
-    transition: all 4s;
+    /* transition: all 4s; */
     color: rgba(0, 0, 0, 1);
 }
 
@@ -105,9 +105,9 @@ canvas {
     text-align: center;
     height: 20%;
     color: black;
-    z-index: 10;
+    z-index: inherit;
     position: absolute;
-    transition: 0.5s;
+    /* transition: 0.5s; */
     background-color: rgb(173, 173, 173);
 }
 
@@ -123,8 +123,8 @@ canvas {
     line-height: 200%;
     text-align: center;
     color: black;
-    z-index: 0;
-    transition: 0.5s;
+    z-index: inherit;
+    /* transition: 0.5s; */
     position: absolute;
     background-color: rgb(173, 173, 173);
 }
@@ -142,8 +142,8 @@ canvas {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
-    transition: all 0.3s;
+    z-index: inherit;
+    /* transition: all 0.3s; */
 }
 
 #ButtonGoBack:hover::before,
@@ -159,13 +159,13 @@ canvas {
     position: absolute;
     border: 2px solid;
     border-color: rgb(108, 196, 108);
-    transition: 0.5s;
+   /* transition: 0.5s;*/
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    z-index: inherit;
     transform: scale(1.2, 1.2);
     opacity: 0
 }
@@ -184,6 +184,7 @@ body {
 }
 
 #MenuBackground {
+    z-index: -1;
     left: 30%;
     overflow: hidden;
     top: 15%;
@@ -195,7 +196,6 @@ body {
     width: 40%;
     height: 70%;
     color: black;
-    z-index: 10;
     position: absolute;
     background-color: gray;
 }

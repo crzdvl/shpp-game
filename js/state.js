@@ -49,7 +49,18 @@ let state = {
   },
 
 };
+function openMenu(a) {
+    let menu = document.getElementById("MenuBackground")
+    if(a==="Open"){
+      menu.style.zIndex = "1"
+      console.log("HHH")
+    }
+    if(a==="close"){
+      menu.style.zIndex = "-1"
+    }
+  }
 function initialization() {
+    openMenu("close")
   for (let i = 0; i < state.pluses.boom.length; i++) {
     app.stage.removeChild(state.pluses.boom[i]);
   }
