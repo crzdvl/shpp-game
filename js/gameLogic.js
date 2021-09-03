@@ -1,9 +1,11 @@
 const app = new PIXI.Application({
-    backgroundAlpha: 0,
-    width: innerWidth,
-    height: innerHeight - 4,
-    resizeTo: window
-})
-console.log(app);
-app.renderer.view.style.position = "absolute"
-let Width = innerWidth, H;
+  backgroundAlpha: 0,
+  width: innerWidth,
+  height: innerHeight - 4,
+  resizeTo: window,
+  resolution: 1,
+});
+
+app.renderer.view.style.position = 'absolute';
+const Width = innerWidth;
+let H;

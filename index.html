@@ -1,234 +1,253 @@
 <!DOCTYPE html>
 <html lang = 'en'>
-
-<head>
+  <head>
     <meta charset="utf-8">
     <title>ш++</title>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Play">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play">
     <style>
-        body {
-            margin: 0%;
-            padding: 0%;
-            overflow:hidden;
-        }
+      body {
+        margin: 0%;
+        padding: 0%;
+        overflow:hidden;
+      }
     </style>
-    <link rel = "icon" href = 
-"https://media.geeksforgeeks.org/wp-content/cdn-uploads/gfg_200X200.png" 
-        type = "image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<div id="background"></div>
-<div id="start"></div>
-<div id="MenuBackground">
+    <link rel="icon" href="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gfg_200X200.png" type = "image/x-icon">
+  </head>
+  <body>
+  <div id="background"></div>
+  <div id="start"></div>
+  <div id="MenuBackground">
     <div id="ButtonPlay" onclick="restart()">Грати знову</div>
     <div id="ButtonGoBack">Повернутися</div>
     <div id="menuCircleAnim1"></div>
     <div id="menuCircleAnim2"></div>
     <div id="shppIcon1">Ш</div>
     <div id="shppIcon2">++</div>
-</div>
-
-<script src="https://pixijs.download/v6.1.0-rc.2/pixi.js"></script>
-<script src="js/gameLogic.js"></script>
-<script src="js/config.js"></script>
-<script src="js/state.js"></script>
-<script src="js/pushingPluses.js"></script>
-<script src="js/catchers.js"></script>
-<script src="js/start.js"></script>
-<script src="js/score.js"></script>
-<script src="js/goldPlus.js"></script>
-<script src="js/blastPluses.js"></script>
-<link rel="stylesheet" href="styles.css">
+  </div>
+  <script src="https://pixijs.download/v6.1.0-rc.2/pixi.js"></script>
+  <script src="js/gameLogic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/pushingPluses.js"></script>
+  <script src="js/catchers.js"></script>
+  <script src="js/start.js"></script>
+  <script src="js/score.js"></script>
+  <script src="js/goldPlus.js"></script>
+  <script src="js/blastPluses.js"></script>
+  <link rel="stylesheet" href="styles.css">
     <script>
-        function restart(){
-            initialization();
-        }
-        function changeColor(a,b){
-            if( b == 1)
-            {console.log(0)
-            let q = document.getElementById(a)
-            q.style.backgroundColor = "black"}
-            if( b == 0)
-            {
-            let y = document.getElementById(a)
-            y.style.backgroundColor = "white"
-            console.log(true)
-            }
-        }
-        let di = document.getElementById("background")
-        function KeyDownHandler(e) {
-            if (e.keyCode === 39) {
-                state.rightPressed = true;
-            }
-            if (e.keyCode === 37) {
-                state.leftPressed = true;
-            }
-            if(e.keyCode === 13) {
-            	skipStart();
-            }
+      function restart(){
+          initialization();
+      }
+      function changeColor(a,b){
+        if (b == 1) {
+          let q = document.getElementById(a);
+          q.style.backgroundColor = "black";
         }
 
-        function KeyUpHandler(e) {
-            if (e.keyCode === 39) {
-                state.rightPressed = false;
-            }
-            if (e.keyCode === 37) {
-                state.leftPressed = false;
-            }
+        if (b == 0) {
+          let y = document.getElementById(a);
+            
+          y.style.backgroundColor = "white";
         }
-        document.addEventListener("keydown", KeyDownHandler, false);
-        document.addEventListener("keyup", KeyUpHandler, false);
-        function MoveSh() {
-            if (state.rightPressed && state.sh.x + config.fontSize < config.width) {
+      }
 
-                state.sh.x += config.shSpeed;
+      let di = document.getElementById("background");
 
-            }
-            if (state.leftPressed && 0 < state.sh.x) {
-
-                state.sh.x -= config.shSpeed;
-
-            }
+      function KeyDownHandler(e) {
+        if (e.keyCode === 39) {
+            state.rightPressed = true;
         }
-        function PlusMover() {
-            for (let i = 0; i < state.pluses.falling.length; i++) {
-                if (!state.pluses.falling[i].catched) {
-                    state.pluses.falling[i].y += state.pluses.falling[i].speed * state.deltaTime;
+        if (e.keyCode === 37) {
+            state.leftPressed = true;
+        }
+        if(e.keyCode === 13) {
+          skipStart();
+        }
+      }
+
+      function KeyUpHandler(e) {
+        if (e.keyCode === 39) {
+            state.rightPressed = false;
+        }
+        if (e.keyCode === 37) {
+            state.leftPressed = false;
+        }
+      }
+      document.addEventListener("keydown", KeyDownHandler, false);
+      document.addEventListener("keyup", KeyUpHandler, false);
+
+      function MoveSh() {
+        if (state.rightPressed && state.sh.x + state.fontSize < innerWidth) {
+          state.sh.x += config.shSpeed;
+        }
+        if (state.leftPressed && 0 < state.sh.x) {
+          state.sh.x -= config.shSpeed;
+        }
+      }
+
+      function PlusMover() {
+        for (let i = 0; i < state.pluses.falling.length; i++) {
+          if (!state.pluses.falling[i].catched) {
+              state.pluses.falling[i].y += state.pluses.falling[i].speed * state.deltaTime;
+          }
+        }
+      }
+      function GameOver() {
+        for (let i = 0; i < state.pluses.falling.length; i++) {
+          let falling = state.pluses.falling[i]
+          let plusSize = state.plusRealSize
+          if (
+            falling.y > state.shSizes.y - state.shSizes.h 
+            && falling.y < state.shSizes.y) {
+                if (
+                  falling.x > state.shSizes.x 
+                  && falling.x < state.shSizes.x + state.shSizes.w 
+                  && falling.x + plusSize.width > state.shSizes.x 
+                  && falling.x + plusSize.width < state.shSizes.x + state.shSizes.w 
+                  && !falling.catched 
+                  && !falling.kill) {
+                    state.stop = true;
+                    falling.kill = true;
+
+                    app.stage.removeChild(falling)
+                } else if (
+                  falling.x > state.shSizes.x 
+                  && falling.x < state.shSizes.x + state.shSizes.w 
+                  && !falling.catched 
+                  && !falling.kill) {
+                    state.stop = true;
+                    falling.kill = true;
+                    app.stage.removeChild(falling)
+                } else if (
+                  falling.x + plusSize.width > state.shSizes.x 
+                  && falling.x + plusSize.width < state.shSizes.x + state.shSizes.w 
+                  && !falling.catched 
+                  && !falling.kill) {
+                    state.stop = true;
+                    falling.kill = true;
+
+                    app.stage.removeChild(falling)
                 }
             }
         }
-        function GameOver() {
-            for (let i = 0; i < state.pluses.falling.length; i++) {
-                let falling = state.pluses.falling[i]
-                let plusSize = state.plusRealSize
-                if (falling.y > state.shSizes.y - state.shSizes.h &&
-                    falling.y < state.shSizes.y) {
-                    if (falling.x > state.shSizes.x &&
-                        falling.x < state.shSizes.x + state.shSizes.w &&
-                        falling.x + plusSize.width > state.shSizes.x &&
-                        falling.x + plusSize.width < state.shSizes.x + state.shSizes.w &&
-                        !falling.catched &&
-                        !falling.kill) {
-                        state.stop = true;
-                        falling.kill = true;
-                        app.stage.removeChild(falling)
-                    } else if (falling.x > state.shSizes.x &&
-                        falling.x < state.shSizes.x + state.shSizes.w &&
-                        !falling.catched &&
-                        !falling.kill) {
-                        state.stop = true;
-                        falling.kill = true;
-                        app.stage.removeChild(falling)
-                    } else if (falling.x + plusSize.width > state.shSizes.x &&
-                        falling.x + plusSize.width < state.shSizes.x + state.shSizes.w &&
-                        !falling.catched &&
-                        !falling.kill) {
-                        state.stop = true;
-                        falling.kill = true;
-                        app.stage.removeChild(falling)
-                    }
-                }
-            }
-        }
-        //Игровой счет -----------------------------------------------------------------------------------------------
+      }
+      //Игровой счет -----------------------------------------------------------------------------------------------
     
-        //Анимация взрыва плюсов -------------------------------------------------------------------------------------
-        function GameOverBlastAnim() {
-            for (let i = 0; i < state.pluses.gold.length; i++) {
-                let goldPlus = state.pluses.gold[i]
-                goldPlus.x += goldPlus.Xshag;
-                goldPlus.y += goldPlus.Yshag;
-                goldPlus.rotation += goldPlus.rotationStep;
-                goldPlus.Yshag += config.gravity
+      //Анимация взрыва плюсов -------------------------------------------------------------------------------------
+      function GameOverBlastAnim() {
+        for (let i = 0; i < state.pluses.gold.length; i++) {
+          let goldPlus = state.pluses.gold[i];
 
-            }
-            for (let i = 0; i < state.pluses.caughtPluses.length; i++) {
-                let plusCaught = state.pluses.caughtPluses[i]
-                plusCaught.x += plusCaught.Xshag;
-                plusCaught.y += plusCaught.Yshag;
-                plusCaught.Yshag += config.gravity;
-                plusCaught.rotation += plusCaught.rotationStep
-            }
-            state.sh.x += state.sh.shag.x;
-            state.sh.y += state.sh.shag.y;
-            state.sh.rotation += state.sh.rotationStep
-            state.greyPlus.rotation += state.sh.rotationStep
-            state.sh.shag.y += config.gravity;
-            state.greyPlus.x += state.greyPlus.shag.x;
-            state.greyPlus.y += state.greyPlus.shag.y;
-            state.greyPlus.shag.y += config.gravity;
+          goldPlus.x += goldPlus.Xshag;
+          goldPlus.y += goldPlus.Yshag;
+          goldPlus.rotation += goldPlus.rotationStep;
+          goldPlus.Yshag += config.gravity;
         }
-        function difficultGame() {
-            state.difficult = state.pluses.gold.length
-            di.style.backgroundColor = (["#DAF7A6", "#FFDA62", "#FF937B", "#C70039", "#900C3F"])[state.difficult];
+        for (let i = 0; i < state.pluses.caughtPluses.length; i++) {
+          let plusCaught = state.pluses.caughtPluses[i];
+
+          plusCaught.x += plusCaught.Xshag;
+          plusCaught.y += plusCaught.Yshag;
+          plusCaught.Yshag += config.gravity;
+          plusCaught.rotation += plusCaught.rotationStep;
         }
-        function Update() {
-            state.shSizes.w = state.shRealSize.width
-            state.shSizes.h = state.shRealSize.height
-            state.shSizes.x = state.sh.x;
-            state.shSizes.y = state.sh.y + state.shRealSize.height / 2
-            state.sh.y = innerHeight - state.shRealSize.height
- 	        for (let i = 0; i < state.pluses.falling.length; i++) {
-                if (state.pluses.falling[i].y > innerHeight) {
-                    state.pluses.falling.splice(i, 1)
-                }
+
+        state.sh.x += state.sh.shag.x;
+        state.sh.y += state.sh.shag.y;
+        state.sh.rotation += state.sh.rotationStep
+        state.greyPlus.rotation += state.sh.rotationStep
+        state.sh.shag.y += config.gravity;
+        state.greyPlus.x += state.greyPlus.shag.x;
+        state.greyPlus.y += state.greyPlus.shag.y;
+        state.greyPlus.shag.y += config.gravity;
+      }
+        
+      function difficultGame() {
+        state.difficult = state.pluses.gold.length
+        if (state.difficult === 0) {
+            di.style.backgroundColor = "#DAF7A6";
+        }
+        if (state.difficult === 1) {
+            di.style.backgroundColor = "#FFDA62";
+        }
+        if (state.difficult === 2) {
+            di.style.backgroundColor = "#FF937B";
+        }
+        if (state.difficult === 3) {
+            di.style.backgroundColor = "#C70039";
+        }
+        if (state.difficult === 4) {
+            di.style.backgroundColor = "#900C3F";
+        }
+      }
+
+      function Update() {
+        state.shSizes.w = state.shRealSize.width;
+        state.shSizes.h = state.shRealSize.height;
+        state.shSizes.x = state.sh.x;
+        state.shSizes.y = state.sh.y + state.shRealSize.height / 2;
+        state.sh.y = innerHeight - state.shRealSize.height;
+
+        for (let i = 0; i < state.pluses.falling.length; i++) {
+          if (state.pluses.falling[i].y > innerHeight) {
+              state.pluses.falling.splice(i, 1);
+          }
+        }
+            
+        if (state.pluses.gold.length > 0) {
+          for (let i = 0; i < state.pluses.gold.length; i++) {
+            if (state.pluses.gold[i].catched) {
+                state.pluses.gold[i].x = state.sh.x + config.greyDist + (config.catchedPlusesDist * (1 + i))
             }
-            if (state.pluses.gold.length > 0) {
-                for (let i = 0; i < state.pluses.gold.length; i++) {
-                    if (state.pluses.gold[i].catched) {
-                        state.pluses.gold[i].x = state.sh.x + config.greyDist + (config.catchedPlusesDist * (1 + i))
-                    }
-                }
-            }
-            if (state.pluses.caughtPluses.length > 0) {
-                state.greyPlus.x = state.sh.x + config.greyDist + (config.catchedPlusesDist * (state.pluses.caughtPluses.length + 1 + state.catchedGoldPluses))
-                state.greyPlus.y = state.sh.y
-                for (let i = 0; i < state.pluses.caughtPluses.length; i++) {
-                    state.pluses.caughtPluses[i].x = state.sh.x + config.greyDist + (config.catchedPlusesDist * (1 + i + state.catchedGoldPluses))
-                    state.pluses.caughtPluses[i].y = state.sh.y
-                }
-            } else {
-                state.greyPlus.x = state.sh.x + config.greyDist + config.catchedPlusesDist * (state.pluses.caughtPluses.length + 1 + state.catchedGoldPluses)
-                state.greyPlus.y = state.sh.y
-            }
+          }
+        }
+            
+        if (state.pluses.caughtPluses.length > 0) {
+          state.greyPlus.x = state.sh.x + config.greyDist + (config.catchedPlusesDist * (state.pluses.caughtPluses.length + 1 + state.catchedGoldPluses));
+          state.greyPlus.y = state.sh.y;
+          for (let i = 0; i < state.pluses.caughtPluses.length; i++) {
+            state.pluses.caughtPluses[i].x = state.sh.x + config.greyDist + (config.catchedPlusesDist * (1 + i + state.catchedGoldPluses));
+            state.pluses.caughtPluses[i].y = state.sh.y;
+          }
+        } else {
+          state.greyPlus.x = state.sh.x + config.greyDist + config.catchedPlusesDist * (state.pluses.caughtPluses.length + 1 + state.catchedGoldPluses);
+          state.greyPlus.y = state.sh.y;
+          }
         }
 
         let prevFrame = 0;
         app.ticker.add(() => {
-
             const now = Date.now();
             state.deltaTime = Math.min(6, (now - prevFrame) / 16);
             prevFrame = now;
 
-        	if (state.startGame) {
-                if (!state.stop) {
-                    PlusCatcher();
-                    GoldPlusMove();
-                    //console.log(true)
-                    GameScore();
-                    BlastPlusesNextSh();
-                    Update();
-                    isAllGoldPlusesCatched()
-                    BoomPlusesMove();
-                    MoveSh();
-                    PlusMover();
-                    CatcherAnimCaller();
-                    SayNumberKnockedPlusCaller();
-                    ScoreVariablesRemove();
-                    GoldPlus();
-                    GoldPlAnim();
-                    GoldCatcher();
-                    difficultGame();
-                    TransformPlusDelete();
-                } else {
-                    GameOverBlastAnim();
-                }
-                GameOver();
-                
+        	  if (state.startGame) {
+              if (!state.stop) {
+                PlusCatcher();
+                GoldPlusMove();
+                //console.log(true)
+                GameScore();
+                BlastPlusesNextSh();
+                Update();
+                isAllGoldPlusesCatched()
+                BoomPlusesMove();
+                MoveSh();
+                PlusMover();
+                CatcherAnimCaller();
+                SayNumberKnockedPlusCaller();
+                ScoreVariablesRemove();
+                GoldPlus();
+                GoldPlAnim();
+                GoldCatcher();
+                difficultGame();
+                TransformPlusDelete();
+            } else {
+                  GameOverBlastAnim();
             }
+            GameOver();
+          }
         });
     </script>
-</body>
+  </body>
 </html>
