@@ -184,7 +184,7 @@ body {
 }
 
 #MenuBackground {
-    z-index: -1;
+    z-index: 100500;
     left: 30%;
     overflow: hidden;
     top: 15%;
