@@ -77,6 +77,25 @@
       document.addEventListener("keydown", KeyDownHandler, false);
       document.addEventListener("keyup", KeyUpHandler, false);
 
+      function TouchStartHandler(e) {
+        if (state.startGame) {
+          const touch = e.changedTouches?.[0];
+          if (touch.clientX < Width / 2)
+            state.leftPressed = true;
+          else
+            state.rightPressed = true;
+        }
+      }
+      function TouchEndHandler(e) {
+        if (!state.startGame) {
+          restart();
+        } else {
+          state.leftPressed = state.rightPressed = false;
+        }
+      }
+      document.addEventListener('touchstart', TouchStartHandler, false);
+      document.addEventListener('touchend', TouchEndHandler, false);
+
       function MoveSh() {
         if (state.rightPressed && state.sh.x + state.fontSize < innerWidth) {
           state.sh.x += config.shSpeed;
