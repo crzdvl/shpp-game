@@ -152,7 +152,11 @@
         }
       }
       //Игровой счет -----------------------------------------------------------------------------------------------
-    
+      function test(){
+        if(state.pluses.falling.length > 0){
+          console.log()
+        }
+      }
       //Анимация взрыва плюсов -------------------------------------------------------------------------------------
       function GameOverBlastAnim() {
         for (let i = 0; i < state.pluses.gold.length; i++) {
@@ -244,7 +248,6 @@
               if (!state.stop) {
                 PlusCatcher();
                 GoldPlusMove();
-                //console.log(true)
                 GameScore();
                 BlastPlusesNextSh();
                 Update();

@@ -41,15 +41,15 @@ function createPlus(lastPlus) {
   }
   if (state.difficult === 2) {
     lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.4;
-    state.intervalOfFallingPluses.falling = 400;
+    state.intervalOfFallingPluses.falling = 600;
   }
   if (state.difficult === 3) {
     lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.6;
-    state.intervalOfFallingPluses.falling = 300;
+    state.intervalOfFallingPluses.falling = 400;
   }
   if (state.difficult === 4) {
     lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.8;
-    state.intervalOfFallingPluses.falling = 150;
+    state.intervalOfFallingPluses.falling = 0;
   }
   lastPlus.rotationStep = round((Math.random() * config.rotationRandomizer), 2);
   lastPlus.x = Math.floor(Math.random() * (innerWidth - 100) + 100);
@@ -57,18 +57,7 @@ function createPlus(lastPlus) {
   app.stage.addChild(lastPlus);
 }
 
-function CreateFallingPlus() {
-  if (!state.stop) {
-    if (state.startGame) {
-      state.pluses.falling.push(new PIXI.Text('+', config.styles.greenPlus));
-      const lastPlus = state.pluses.falling[state.pluses.falling.length - 1];
-      createPlus(lastPlus);
-    }
-    setTimeout(CreateFallingPlus, state.intervalOfFallingPluses.falling);
-  }
-}
-
-CreateFallingPlus(); // Функция которая пушит первый плюс отдельно от других--------------------------------------------------------
+ // Функция которая пушит первый плюс отдельно от других--------------------------------------------------------
 // Функция которая пушит плюсы рядом с "Ш" --------------------------------------------------------------------
 function PlusCaught(X, Y) {
   state.pluses.caughtPluses.push(new PIXI.Text('+', config.styles.greenPlus));

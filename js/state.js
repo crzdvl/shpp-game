@@ -21,7 +21,8 @@ let state = {
   stop: false, // stop game
   gravity: 0,
   intervalOfFallingPluses: {
-    falling: 700,
+    falling: 1200
+    ,
   },
   plusFell: true, // if plus fell
   timeWhenFunctionsDone: 0,
@@ -53,6 +54,16 @@ function openMenu(open) {
     let menu = document.getElementById("MenuBackground");
     menu.style.display = open ? "block" : "none";
   }
+  function CreateFallingPlus() {
+    console.log("A")
+    if (!state.stop) {
+      state.pluses.falling.push(new PIXI.Text('+', config.styles.greenPlus));
+        const lastPlus = state.pluses.falling[state.pluses.falling.length - 1];
+        createPlus(lastPlus);
+     setTimeout(CreateFallingPlus, state.intervalOfFallingPluses.falling);
+    }
+  }
+  
 function initialization() {
     openMenu(false)
   for (let i = 0; i < state.pluses.boom.length; i++) {
@@ -95,7 +106,7 @@ function initialization() {
     stop: false, // stop game
     gravity: 0,
     intervalOfFallingPluses: {
-      falling: 700,
+      falling: 1200,
     },
     plusFell: true, // if plus fell
     timeWhenFunctionsDone: 0,
@@ -140,4 +151,5 @@ function initialization() {
   app.stage.addChild(state.sh);
   app.stage.addChild(state.greyPlus);
   state.startGame = true;
+  CreateFallingPlus();
 }
