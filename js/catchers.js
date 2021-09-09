@@ -23,8 +23,8 @@ function GoldCatcher() {
 function SayNumberKnockedPlus(plus, dead) {
   for (let i = 0; i < state.pluses.falling.length; i++) {
     for (let a = 0; a < plus.length; a++) {
-      const falling = state.pluses.falling[i];
-      const plusDist = config.catchedPlusesDist;
+      let falling = state.pluses.falling[i];
+      let plusDist = config.catchedPlusesDist;
       if (plus[a].x < falling.x + plusDist / 2
                 && plus[a].x + plusDist > falling.x + plusDist / 2
                 && !falling.catched
@@ -33,6 +33,7 @@ function SayNumberKnockedPlus(plus, dead) {
                 && plus[a].catched) {
         if (plus[a].y > falling.y
                     && plus[a].y - plusDist < falling.y) {
+                     
           dead.value = a + 1;
           state.pushPlusNextSh = true;
           falling.kill = true;
