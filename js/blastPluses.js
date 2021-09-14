@@ -1,10 +1,12 @@
 function blastPL(parentPlus, typeofPlus, a) {
   const {length} = parentPlus;
   for (let i = a - 1; i < length; i++) {
+    if(typeofPlus==1){console.log(length)}
     app.stage.removeChild(parentPlus[parentPlus.length - 1]);
     parentPlus.pop();
     state.score -= typeofPlus;
   }
+  console.log(true)
 }
 
 function BlastPlusesNextSh() {
@@ -16,11 +18,9 @@ function BlastPlusesNextSh() {
   } 
   if (state.pushPlusNextSh && state.deadGoldPlus.value > 0) {
     BoomPush();
-    if (state.pluses.gold.length > 0 && state.deadGoldPlus.value > 0) {
-      blastPL(state.pluses.gold, 5, state.deadGoldPlus.value);
-      state.deadGoldPlus.value = 0;
-    }
-    blastPL(state.pluses.caughtPluses, 1, state.deadPlus.value);
+    blastPL(state.pluses.gold, 5, state.deadGoldPlus.value);
+    state.deadGoldPlus.value = 0;
+    blastPL(state.pluses.caughtPluses, 1, state.pluses.caughtPluses.length-1);
     state.pushPlusNextSh = false;
   }
 }

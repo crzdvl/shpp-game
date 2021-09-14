@@ -55,7 +55,6 @@ function openMenu(open) {
     menu.style.display = open ? "block" : "none";
   }
   function CreateFallingPlus() {
-    console.log("A")
     if (!state.stop) {
       state.pluses.falling.push(new PIXI.Text('+', config.styles.greenPlus));
         const lastPlus = state.pluses.falling[state.pluses.falling.length - 1];
