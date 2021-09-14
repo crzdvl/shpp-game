@@ -17,10 +17,15 @@ function BlastPlusesNextSh() {
     state.pushPlusNextSh = false;
   } 
   if (state.pushPlusNextSh && state.deadGoldPlus.value > 0) {
+    state.deadPlus.value = state.pluses.caughtPluses.length;
     BoomPush();
     blastPL(state.pluses.gold, 5, state.deadGoldPlus.value);
     state.deadGoldPlus.value = 0;
-    blastPL(state.pluses.caughtPluses, 1, state.pluses.caughtPluses.length-1);
+    state.deadPlus.value = 0;
+    for(let i = 0; i<state.pluses.caughtPluses.length; i++){
+    app.stage.removeChild(state.pluses.caughtPluses[i])}
+    state.score-=state.pluses.caughtPluses.length
+    state.pluses.caughtPluses.length = 0;
     state.pushPlusNextSh = false;
   }
 }
