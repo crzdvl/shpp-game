@@ -51,17 +51,24 @@ let state = {
 
 };
 function openMenu(open) {
-    let menu = document.getElementById("MenuBackground");
-    menu.style.display = open ? "block" : "none";
+  let menu = document.getElementById("MenuBackground");
+  menu.style.display = open ? "block" : "none";
+}
+function CreateFallingPlus() {
+  if (!state.stop) {
+    const newPlus = new PIXI.Text('+', config.styles.greenPlus);
+    state.pluses.falling.push(newPlus);
+    createPlus(newPlus);
+    // setTimeout(CreateFallingPlus, state.intervalOfFallingPluses.falling);
   }
-  function CreateFallingPlus() {
-    if (!state.stop) {
-      state.pluses.falling.push(new PIXI.Text('+', config.styles.greenPlus));
-        const lastPlus = state.pluses.falling[state.pluses.falling.length - 1];
-        createPlus(lastPlus);
-     setTimeout(CreateFallingPlus, state.intervalOfFallingPluses.falling);
-    }
+}
+function FallingPlusCreater() {
+  const now = Date.now();
+  if (now - state.intervalOfFallingPluses.lastCreated >= state.intervalOfFallingPluses.falling) {
+    CreateFallingPlus();
+    state.intervalOfFallingPluses.lastCreated = now;
   }
+}
   
 function initialization() {
     openMenu(false)
@@ -105,6 +112,7 @@ function initialization() {
     stop: false, // stop game
     gravity: 0,
     intervalOfFallingPluses: {
+      lastCreated: 0,
       falling: 1200,
     },
     plusFell: true, // if plus fell
@@ -150,5 +158,5 @@ function initialization() {
   app.stage.addChild(state.sh);
   app.stage.addChild(state.greyPlus);
   state.startGame = true;
-  CreateFallingPlus();
+  // CreateFallingPlus();
 }

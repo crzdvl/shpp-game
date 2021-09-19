@@ -108,7 +108,7 @@
       function PlusMover() {
         for (let i = 0; i < state.pluses.falling.length; i++) {
           if (!state.pluses.falling[i].catched) {
-              state.pluses.falling[i].y += state.pluses.falling[i].speed * state.deltaTime;
+            state.pluses.falling[i].y += state.pluses.falling[i].speed * state.deltaTime;
           }
         }
       }
@@ -236,40 +236,42 @@
         } else {
           state.greyPlus.x = state.sh.x + config.greyDist + config.catchedPlusesDist * (state.pluses.caughtPluses.length + 1 + state.catchedGoldPluses);
           state.greyPlus.y = state.sh.y;
-          }
         }
-        let prevFrame = 0;
-        app.ticker.add(() => {
-            const now = Date.now();
-            state.deltaTime = Math.min(6, (now - prevFrame) / 16);
-            prevFrame = now;
+      }
+      let prevFrame = 0;
+      app.ticker.add(() => {
+        const now = Date.now();
+        state.deltaTime = Math.min(6, (now - prevFrame) / 16);
+        prevFrame = now;
 
-        	  if (state.startGame) {
-              if (!state.stop) {
-                PlusCatcher();
-                GoldPlusMove();
-                GameScore();
-                BlastPlusesNextSh();
-                Update();
-                isAllGoldPlusesCatched()
-                BoomPlusesMove();
-                MoveSh();
-                PlusMover();
-                CatcherAnimCaller();
-                SayNumberKnockedPlusCaller();
-                ScoreVariablesRemove();
-                GoldPlus();
-                GoldPlAnim();
-                GoldCatcher();
-                difficultGame();
-                TransformPlusDelete();
-            } else {
-                  GameOverBlastAnim();
-                  openMenu("Open");
-            }
-            GameOver();
+        if (state.startGame) {
+          if (!state.stop) {
+
+            FallingPlusCreater();
+            PlusCatcher();
+            GoldPlusMove();
+            GameScore();
+            BlastPlusesNextSh();
+            Update();
+            isAllGoldPlusesCatched()
+            BoomPlusesMove();
+            MoveSh();
+            PlusMover();
+            CatcherAnimCaller();
+            SayNumberKnockedPlusCaller();
+            ScoreVariablesRemove();
+            GoldPlus();
+            GoldPlAnim();
+            GoldCatcher();
+            difficultGame();
+            TransformPlusDelete();
+          } else {
+            GameOverBlastAnim();
+            openMenu("Open");
           }
-        });
+          GameOver();
+        }
+      });
     </script>
   </body>
 </html>

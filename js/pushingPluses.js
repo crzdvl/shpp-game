@@ -49,7 +49,7 @@ function createPlus(lastPlus) {
   }
   if (state.difficult === 4) {
     lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.8;
-    state.intervalOfFallingPluses.falling = 0;
+    state.intervalOfFallingPluses.falling = 200;
   }
   lastPlus.rotationStep = round((Math.random() * config.rotationRandomizer), 2);
   lastPlus.x = Math.floor(Math.random() * (innerWidth - 100) + 100);

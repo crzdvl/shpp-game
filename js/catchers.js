@@ -1,5 +1,5 @@
 function PlusCatcher() {
-  catchSmth(state.pluses.falling.length, state.pluses.falling);
+  catchSmth(state.pluses.falling);
 }
 
 function GoldCatcher() {
@@ -61,7 +61,7 @@ function CatcherAnimCaller() {
 
 function CatcherAnimSmth(y) {
   const pluses = y;
-  if (state.pluses.falling.length > 1) {
+  // if (pluses.length > 1) {
     for (plus of pluses) {
       if (plus.catched) {
         const shagY = (state.greyPlus.y - plus.y) / 6;
@@ -89,18 +89,16 @@ function CatcherAnimSmth(y) {
         }
       }
     }
-  }
+  // }
 }
 
-function catchSmth(a, b) {
-  for (let i = 0; i < a; i++) {
-    const fallin = b[i];
+function catchSmth(arr) {
+  for (const fallin of arr) {
     if (
-      fallin.y < innerHeight - state.fontSize / 2.5
-            && fallin.y > innerHeight - state.fontSize * 2.5
-            && !fallin.catched
-            && state.allGoldCatched
-
+      fallin.y < innerHeight - state.fontSize / 2.5 && 
+      fallin.y > innerHeight - state.fontSize * 2.5 && 
+      !fallin.catched && 
+      state.allGoldCatched
     ) {
       if (
         fallin.x > state.greyPlus.x - state.fontSize / 2
