@@ -33,40 +33,41 @@ const config = {
   },
   styles: { // objects styles ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     greenPlus: new PIXI.TextStyle({
-      fill: 'green',
+      fill: '#27AE60',
       lineJoin: 'round',
-      stroke: 'green',
+      stroke: '#27AE60',
       fontSize: Width / 10,
       strokeThickness: 4,
     }),
 
     grayPlus: new PIXI.TextStyle({
-      fill: 'gray',
+      fill: '#3D3D3D',
       lineJoin: 'round',
+      stroke: '#3D3D3D',
       fontSize: Width / 10,
       strokeThickness: 4,
     }),
 
     goldPlus: new PIXI.TextStyle({
-      fill: 'yellow',
-      stroke: 'yellow',
+      fill: '#FFD700',
+      stroke: '#FFD700',
       lineJoin: 'round',
       fontSize: Width / 10,
       strokeThickness: 4,
     }),
 
     sh: new PIXI.TextStyle({
-      fill: 'black',
+      fill: '#000000',
       lineJoin: 'round',
       fontSize: Width / 10,
       strokeThickness: 4,
     }),
 
     score: new PIXI.TextStyle({
-      fill: 'green',
+      fill: '#27AE60',
       fontSize: Width / 15,
       lineJoin: 'round',
-      stroke: 'green',
+      stroke: '#27AE60',
       strokeThickness: 4,
     }),
   },

@@ -8,6 +8,15 @@
     overflow: hidden;
 }
 
+#imgback{
+
+position: absolute;
+width: 1900px;
+height: 1300px;
+z-index: 1;
+background: url(galaxyrefitstarboard.png);
+}
+
 canvas {
     position: absolute;
 }

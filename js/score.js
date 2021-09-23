@@ -9,9 +9,9 @@ function GameScore() {
 
 function ScoreAnimPlus() {
   if (state.scoreColorAlpha < 1) {
-    state.scoreObject.style.fill = `rgba(0,128,0,${state.scoreColorAlpha})`;
+    state.scoreObject.style.fill = `rgba(39, 174, 96,${state.scoreColorAlpha})`;
     state.scoreColorAlpha += 0.05;
-    state.scoreObject.style.stroke = `rgba(0,128,0,${state.scoreColorAlpha})`;
+    state.scoreObject.style.stroke = `rgba(39, 174, 96,${state.scoreColorAlpha})`;
   }
   // if(state.scoreObject.y >= state.fontSize) {
   //     state.scoreSpeed = -10;
