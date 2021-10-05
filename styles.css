@@ -1,7 +1,10 @@
 #background {
     position: absolute;
     width: 100%;
-    /* transition: background-color 2s; */
+    background-image: url(https://programming.org.ua/img/galaxyrefitstarboard.png); 
+    background-position: center;
+    /*transform: rotate(90deg);*/
+    transition: background-color 0.5s;
     height: 100%;
     background-color: #DAF7A6;
     resize: both;

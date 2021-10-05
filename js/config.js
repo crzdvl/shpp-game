@@ -61,6 +61,7 @@ const config = {
       lineJoin: 'round',
       fontSize: Width / 10,
       strokeThickness: 4,
+      stroke: '#000000'
     }),
 
     score: new PIXI.TextStyle({

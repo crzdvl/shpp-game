@@ -185,24 +185,39 @@
         state.greyPlus.y += state.greyPlus.shag.y;
         state.greyPlus.shag.y += config.gravity;
       }
-        
+       function dayMode(){
+            di.style.backgroundColor = "#F8F8F8";
+            state.sh.style.fill = "black"
+            state.sh.style.stroke = "black"
+            state.greyPlus.style.stroke = "#3D3D3D"
+            state.greyPlus.style.fill = "#F8F8F8"
+            state.scoreObject.style.fill = "#27AE60"
+            state.scoreObject.style.stroke = "#27AE60"
+
+       }
+       function nightMode(){
+            di.style.backgroundColor = "#3D3D3D";
+            state.sh.style.fill = "white"
+            state.sh.style.stroke = "white"
+            state.greyPlus.style.stroke = "white"
+            state.greyPlus.style.fill = "#3D3D3D"
+            state.scoreObject.style.fill = "#FFD700"
+            state.scoreObject.style.stroke = "#FFD700"
+
+       }
+
+
+
       function difficultGame() {
         state.difficult = state.pluses.gold.length
-        if (state.difficult === 0) {
-            di.style.backgroundColor = "#DAF7A6";
+        let a = state.difficult;
+        if (a === 0 || a === 2 || a ===4 || a === 6) {
+        	dayMode()
         }
-        if (state.difficult === 1) {
-            di.style.backgroundColor = "#FFDA62";
+        if (a === 1 || a === 3 || a === 5) {
+        	nightMode()
         }
-        if (state.difficult === 2) {
-            di.style.backgroundColor = "#FF937B";
-        }
-        if (state.difficult === 3) {
-            di.style.backgroundColor = "#C70039";
-        }
-        if (state.difficult === 4) {
-            di.style.backgroundColor = "#900C3F";
-        }
+
       }
 
       function Update() {
