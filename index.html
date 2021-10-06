@@ -14,7 +14,8 @@
     <link rel="icon" href="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gfg_200X200.png" type = "image/x-icon">
   </head>
   <body>
-  <div id="background"></div>
+  
+  <div id="background"><div id="backgroundImage"></div></div>
   <div id="start"></div>
   <div id="MenuBackground">
     <div id="ButtonPlay" onclick="restart()">Грати знову</div>
@@ -51,7 +52,7 @@
           y.style.backgroundColor = "white";
         }
       }
-
+      let backgroundImage = document.getElementById("backgroundImage");
       let di = document.getElementById("background");
 
       function KeyDownHandler(e) {
@@ -193,6 +194,8 @@
             state.greyPlus.style.fill = "#F8F8F8"
             state.scoreObject.style.fill = "#27AE60"
             state.scoreObject.style.stroke = "#27AE60"
+            backgroundImage.style.opacity = "0.6"
+            backgroundImage.style.backgroundBlendMode = "darken"
 
        }
        function nightMode(){
@@ -203,7 +206,7 @@
             state.greyPlus.style.fill = "#3D3D3D"
             state.scoreObject.style.fill = "#FFD700"
             state.scoreObject.style.stroke = "#FFD700"
-
+            backgroundImage.style.opacity = "0.2"
        }
 
 
