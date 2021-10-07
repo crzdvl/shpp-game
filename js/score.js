@@ -32,9 +32,9 @@ function ScoreAnimPlus() {
   const time = Date.now();
 
   if (time > state.scoreAnimationStart + duration) {
-    state.scoreObject.y = state.fontSize;
+    state.scoreObject.y = state.fontSize*0.3;
   } else {
-    state.scoreObject.y = state.fontSize - Math.sin((time - state.scoreAnimationStart) / duration * Math.PI) * state.fontSize * 0.2;
+    state.scoreObject.y = (state.fontSize*0.3)- Math.sin((time - state.scoreAnimationStart) / duration * Math.PI) * state.fontSize * 0.2;
   }
 }
 function AddScoreAnimation() {
