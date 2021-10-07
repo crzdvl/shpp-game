@@ -1,12 +1,10 @@
 function blastPL(parentPlus, typeofPlus, a) {
   const {length} = parentPlus;
   for (let i = a - 1; i < length; i++) {
-    if(typeofPlus==1){console.log(length)}
     app.stage.removeChild(parentPlus[parentPlus.length - 1]);
     parentPlus.pop();
     state.score -= typeofPlus;
   }
-  console.log(true)
 }
 
 function BlastPlusesNextSh() {

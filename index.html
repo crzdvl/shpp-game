@@ -152,12 +152,7 @@
             }
         }
       }
-      //Игровой счет -----------------------------------------------------------------------------------------------
-      function test(){
-        if(state.pluses.falling.length > 0){
-          console.log()
-        }
-      }
+      //Игровой счет -----------------------------------------------------------------------------------
       //Анимация взрыва плюсов -------------------------------------------------------------------------------------
       function GameOverBlastAnim() {
         for (let i = 0; i < state.pluses.gold.length; i++) {
@@ -194,8 +189,8 @@
             state.greyPlus.style.fill = "#F8F8F8"
             state.scoreObject.style.fill = "#27AE60"
             state.scoreObject.style.stroke = "#27AE60"
-            backgroundImage.style.opacity = "0.6"
-            backgroundImage.style.backgroundBlendMode = "darken"
+            backgroundImage.style.opacity = "0.1"
+            backgroundImage.style.filter = "invert(1)"
 
        }
        function nightMode(){
@@ -206,7 +201,7 @@
             state.greyPlus.style.fill = "#3D3D3D"
             state.scoreObject.style.fill = "#FFD700"
             state.scoreObject.style.stroke = "#FFD700"
-            backgroundImage.style.opacity = "0.2"
+            backgroundImage.style.opacity = "0.4"
        }
 
 
@@ -214,10 +209,10 @@
       function difficultGame() {
         state.difficult = state.pluses.gold.length
         let a = state.difficult;
-        if (a === 0 || a === 2 || a ===4 || a === 6) {
+        if (a === 0 || a === 2 || a ===4 || a === 6 || a === 8){
         	dayMode()
         }
-        if (a === 1 || a === 3 || a === 5) {
+        if (a === 1 || a === 3 || a === 5 || a === 7 || a === 9) {
         	nightMode()
         }
 

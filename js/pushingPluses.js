@@ -41,16 +41,38 @@ function createPlus(lastPlus) {
   }
   if (state.difficult === 2) {
     lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.4;
-    state.intervalOfFallingPluses.falling = 600;
+    state.intervalOfFallingPluses.falling = 1000;
   }
   if (state.difficult === 3) {
     lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.6;
-    state.intervalOfFallingPluses.falling = 400;
+    state.intervalOfFallingPluses.falling = 800;
   }
   if (state.difficult === 4) {
-    lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.8;
-    state.intervalOfFallingPluses.falling = 200;
+    lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.63;
+    state.intervalOfFallingPluses.falling = 600;
   }
+  if (state.difficult === 5) {
+    lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.69;
+    state.intervalOfFallingPluses.falling = 600;
+  }
+  if (state.difficult === 6) {
+    lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.7;
+    state.intervalOfFallingPluses.falling = 600;
+  }
+  if (state.difficult === 7) {
+    lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.7;
+    state.intervalOfFallingPluses.falling = 600;
+  }
+  if (state.difficult === 8) {
+    lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.8;
+    state.intervalOfFallingPluses.falling = 400;
+  }
+  if (state.difficult === 9) {
+    lastPlus.speed = round((config.minSpeed + (config.sizesForSpeedRandom.y * Math.random())), 2) + config.fallingPlusesSpeed * 0.8;
+    state.intervalOfFallingPluses.falling = 400;
+  }
+
+
   lastPlus.rotationStep = round((Math.random() * config.rotationRandomizer), 2);
   lastPlus.x = Math.floor(Math.random() * (innerWidth - 100) + 100);
   lastPlus.y = -100;
