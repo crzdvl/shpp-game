@@ -2,6 +2,7 @@ let state = {
   startText: 0,
   shRealSize: PIXI.TextMetrics.measureText('Ш', config.styles.sh),
   plusRealSize: PIXI.TextMetrics.measureText('+', config.styles.greenPlus),
+  
   scoreObject: new PIXI.Text('0', config.styles.score),
   sh: new PIXI.Text('Ш', config.styles.sh),
   greyPlus: new PIXI.Text('+', config.styles.grayPlus),
