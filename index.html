@@ -227,6 +227,7 @@
 
         for (let i = 0; i < state.pluses.falling.length; i++) {
           if (state.pluses.falling[i].y > innerHeight) {
+              app.stage.removeChild(state.pluses.falling[i])
               state.pluses.falling.splice(i, 1);
           }
         }
