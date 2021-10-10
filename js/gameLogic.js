@@ -3,9 +3,9 @@ const app = new PIXI.Application({
   width: innerWidth,
   height: innerHeight - 4,
   resizeTo: window,
-  resolution: 1,
+  resolution: window.devicePixelRatio
 });
 
 app.renderer.view.style.position = 'absolute';
-const Width = innerWidth;
+let Width = innerWidth;
 let H;
