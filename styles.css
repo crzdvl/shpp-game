@@ -7,6 +7,24 @@
     resize: both;
     overflow: hidden;
 }
+#restartSvg {
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    width: 80%;
+    height: 80%;
+}
+#restartSvg:hover {
+    animation: .3s ease-out 0.2s  1 rotation;
+}
+@keyframes rotation {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(-360deg)
+    }
+}
 #backgroundImage {
  width: 100%;
  height: 100%;
@@ -17,73 +35,6 @@
  background-position: center;
  background-image: url(https://programming.org.ua/img/galaxyrefitstarboard.png); 
  opacity: 0.2;
-}
-
-#menuCircleAnim1 {
-    border-radius: 50%;
-    width: 20%;
-    height: 0;
-    padding-bottom: 20%;
-    top: 90%;
-    left: 90%;
-    overflow: hidden;
-    position: absolute;
-    border: 2px dashed;
-    background-color: green;
-    animation: spin infinite;
-    animation-duration: 5000ms;
-}
-
-#shppIcon1 {
-    height: 10%;
-    width: 10%;
-    top: 2%;
-    left: 40%;
-    font-weight: bolder;
-    font-size: 240%;
-    line-height: 100%;
-    position: absolute;
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-#shppIcon2 {
-    font-weight: bolder;
-    height: 10%;
-    width: 10%;
-    top: 2%;
-    left: 50%;
-    font-size: 240%;
-    line-height: 100%;
-    position: absolute;
-    text-align: center;
-    color: green;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-#menuCircleAnim2 {
-    border-radius: 50%;
-    width: 20%;
-    height: 0;
-    padding-bottom: 20%;
-    top: -12%;
-    left: -12%;
-    overflow: hidden;
-    position: absolute;
-    border: 2px dashed;
-    background-color: green;
-    animation: spin infinite;
-    animation-duration: 5000ms;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 #start {
@@ -99,91 +50,6 @@
     color: rgba(0, 0, 0, 1);
 }
 
-#ButtonPlay {
-    left: 15%;
-    top: 20%;
-    font-weight: bolder;
-    font-family: 'Play';
-    font-size: 240%;
-    border-radius: 2%;
-    margin: auto;
-    width: 70%;
-    line-height: 200%;
-    text-align: center;
-    height: 20%;
-    color: black;
-    z-index: inherit;
-    position: absolute;
-    transition: 0.5s; 
-    background-color: rgb(173, 173, 173);
-}
-
-#ButtonGoBack {
-    left: 15%;
-    top: 60%;
-    font-weight: bolder;
-    font-family: 'Play';
-    font-size: 240%;
-    margin: auto;
-    width: 70%;
-    height: 20%;
-    line-height: 200%;
-    text-align: center;
-    color: black;
-    z-index: inherit;
-     transition: 0.5s; 
-    position: absolute;
-    background-color: rgb(173, 173, 173);
-}
-
-#ButtonGoBack:hover,
-#ButtonPlay:hover {
-    background-color: palegreen;
-}
-
-#ButtonGoBack::before,
-#ButtonPlay::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: inherit;
-     transition: all 0.3s; 
-}
-
-#ButtonGoBack:hover::before,
-#ButtonPlay:hover::before {
-    background-color: palegreen;
-    opacity: 0;
-    transform: scale(1.3, 1.3);
-}
-
-#ButtonGoBack::after,
-#ButtonPlay::after {
-    content: '';
-    position: absolute;
-    border: 2px solid;
-    border-color: rgb(108, 196, 108);
-   /* transition: 0.5s;*/
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: inherit;
-    transform: scale(1.2, 1.2);
-    opacity: 0
-}
-
-#ButtonGoBack:hover::after,
-#ButtonPlay:hover::after {
-    transform: scale(1, 1);
-    opacity: 1;
-
-}
-
 html,
 body {
     height: 100%;
@@ -191,21 +57,31 @@ body {
 }
 
 #MenuBackground {
-    z-index: 100500;
-    left: 30%;
+    z-index: 2;
+    left: 44%;
     overflow: hidden;
-    top: 15%;
+    top: 44%;
     border-style: solid;
     border-color: dimgrey;
-    border-radius: 1%;
+    border-radius: 5%;
     border-width: 0.5%;
-    width: 40%;
-    padding-bottom: 40%;
-    color: black;
+    width: 12%;
+    padding-bottom: 12%;
     position: absolute;
-    background-color: gray;
+    transition: .2s;
+    background-color: #3D3D3D;
 }
-
+#MenuBackground:hover {
+    color: #2c2c2c
+}
+@keyframes changeColor {
+    from {
+        opacity: 100%;
+    }
+    to {
+        opacity: 0%;
+    }
+}
 ::-webkit-scrollbar {
     display: none;
 }
