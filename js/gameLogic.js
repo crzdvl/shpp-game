@@ -7,5 +7,5 @@ const app = new PIXI.Application({
 });
 
 app.renderer.view.style.position = 'absolute';
-const Width = innerWidth;
+let Width = innerWidth;
 let H;
