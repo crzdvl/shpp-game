@@ -7,6 +7,22 @@
     resize: both;
     overflow: hidden;
 }
+#moveLeft {
+    position: absolute;
+    background-color: transparent;
+    left:0%;
+    top:0%;
+    height:100%;
+    width:50%;
+}
+#moveRight {
+    position: absolute;
+    background-color: transparent;
+    left:50%;
+    top:0%;
+    height:100%;
+    width:50%;
+}
 #background.day {
     background-color: #F8F8F8;
 }
@@ -78,7 +94,22 @@ body {
     height: 100%;
     width: 100%;
 }
+#GameOverText {
+    position: absolute;
+    width: 25vw;
+    height: 5vw;
+    left: 37.5vw;
+    top: 15vw;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 4vw;
+    line-height: 5vw;
+    resize: both;
 
+    color: #3D3D3D;
+
+
+}
 #MenuBackground {
     z-index: 2;
     left: 44%;
@@ -96,6 +127,14 @@ body {
 }
 #MenuBackground:hover {
     color: #2c2c2c
+}
+@media (max-width: 900px) {
+    #backgroundImage {
+        transform: rotate(90deg);
+    }
+    #GameOverText {
+        top: 60vw;
+    }
 }
 @keyframes changeColor {
     from {

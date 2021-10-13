@@ -52,7 +52,10 @@ let state = {
 
 };
 function openMenu(open) {
+
   let menu = document.getElementById("MenuBackground");
+  let gameOverText = document.getElementById("GameOverText")
+  gameOverText.style.display = open ? "block" : "none";
   menu.style.display = open ? "block" : "none";
 }
 function CreateFallingPlus() {

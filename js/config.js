@@ -1,5 +1,5 @@
 let s = 1;
-// if (Width / window.devicePixelRatio < 800)
+// if (Width * window.devicePixelRatio <= 800)
 //   s = 2;
 // else s = 1;
 
@@ -17,8 +17,8 @@ const config = {
   // },
   rotationRandomizer: (0.025 - 0.018) + 0.018, // random speed rotate plus
   animGoldPlusSpeed: Width * s / 280, // speed anim
-  catchedPlusesDist: (Width * s / 10) / 1.5,
-  greyDist: (Width * s / 10) / 2.5, // dist between sh and grey plua
+  catchedPlusesDist: (Width * s / 10) / 1.8,
+  greyDist: (Width * s / 10) / 2.8, // dist between sh and grey plua
   gravity: 0.4,
   fallingPlusesSpeed: (Width * s / 250),
   shStartXPosition: Width * s / 2 - (Width * s / 10) / 2,

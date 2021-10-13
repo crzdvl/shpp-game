@@ -17,6 +17,9 @@
   <body>
   
   <div id="background" class="day">
+    <div id = "moveLeft"></div>
+    <div id = "moveRight"></div>
+    <div id = "GameOverText">GAME OVER</div>
     <div id="backgroundImage"></div>
   </div>
   <div id="start"></div>
@@ -38,7 +41,7 @@
     <script>
       function restartAnim() {console.log(true)
         let restartButton = document.getElementById("MenuBackground");
-        restartButton.style.animation = ".5s ease-in 0.2s  1 changeColor";
+        restartButton.style.animation = ".5s ease-in 0s 1 changeColor";
         setTimeout(restart, 700)
       }
       function restart(){
@@ -188,6 +191,8 @@
         state.greyPlus.shag.y += config.gravity;
       }
       function dayMode(){
+        let gameOverText = document.getElementById("GameOverText")
+         gameOverText.style.filter = "invert(0)"
           di.className = 'day';
           state.sh.style.fill = "black"
           state.sh.style.stroke = "black"
@@ -197,6 +202,8 @@
           state.scoreObject.style.stroke = "#27AE60"
        }
        function nightMode(){
+         let gameOverText = document.getElementById("GameOverText")
+         gameOverText.style.filter = "invert(1)"
          di.className = 'night';
         state.sh.style.fill = "white"
         state.sh.style.stroke = "white"
@@ -220,6 +227,7 @@
       }
 
       function Update() {
+        state.scoreObject.x = innerWidth * 0.9;
         state.shSizes.w = state.shRealSize.width;
         state.shSizes.h = state.shRealSize.height;
         state.shSizes.x = state.sh.x;
