@@ -40,33 +40,37 @@ const config = {
     greenPlus: new PIXI.TextStyle({
       fill: '#27AE60',
       lineJoin: 'round',
-      stroke: '#27AE60',
+      // stroke: '#27AE60',
       fontSize: Width * s / 10,
-      strokeThickness: 8 / window.devicePixelRatio,
+      fontWeight: 'bold',
+      // strokeThickness: 8 / window.devicePixelRatio,
     }),
 
     grayPlus: new PIXI.TextStyle({
-      fill: '#3D3D3D',
+      // fill: '#FFD700',
       lineJoin: 'round',
       stroke: '#3D3D3D',
-      fontSize: Width * s / 10,
+      fontSize: Width * s / 10 - 8 / window.devicePixelRatio * 1.25,
+      fontWeight: 'bold',
       strokeThickness: 8 / window.devicePixelRatio,
     }),
 
     goldPlus: new PIXI.TextStyle({
       fill: '#FFD700',
-      stroke: '#FFD700',
+      // stroke: '#FFD700',
       lineJoin: 'round',
       fontSize: Width * s / 10,
-      strokeThickness: 8 / window.devicePixelRatio,
+      fontWeight: 'bold',
+      // strokeThickness: 8 / window.devicePixelRatio,
     }),
 
     sh: new PIXI.TextStyle({
       fill: '#000000',
       lineJoin: 'round',
       fontSize: Width * s / 10,
-      strokeThickness: 8 / window.devicePixelRatio,
-      stroke: '#000000'
+      fontWeight: 'bold'
+      // strokeThickness: 8 / window.devicePixelRatio,
+      // stroke: '#000000'
     }),
 
     score: new PIXI.TextStyle({

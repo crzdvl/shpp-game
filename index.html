@@ -42,7 +42,7 @@
   <link rel="stylesheet" href="styles.css">
     <script>
 
-      function restartAnim() {console.log(true)
+      function restartAnim() {
         let restartButton = document.getElementById("MenuBackground");
         restartButton.style.animation = ".5s ease-in changeColor";
         setTimeout(restart, 500)
@@ -200,19 +200,17 @@
           di.className = 'day';
           state.sh.style.fill = "black"
           state.sh.style.stroke = "black"
-          state.greyPlus.style.stroke = "#3D3D3D"
-          state.greyPlus.style.fill = "#F8F8F8"
+          // state.greyPlus.style.stroke = "#3D3D3D"
+          // state.greyPlus.style.fill = "#F8F8F8"
           state.scoreObject.style.fill = "#27AE60"
           state.scoreObject.style.stroke = "#27AE60"
        }
        function nightMode(){
-         let gameOverText = document.getElementById("GameOverText")
-         gameOverText.style.filter = "invert(1)"
          di.className = 'night';
         state.sh.style.fill = "white"
         state.sh.style.stroke = "white"
-        state.greyPlus.style.stroke = "white"
-        state.greyPlus.style.fill = "#3D3D3D"
+        // state.greyPlus.style.stroke = "white"
+        // state.greyPlus.style.fill = "#3D3D3D"
         state.scoreObject.style.fill = "#FFD700"
         state.scoreObject.style.stroke = "#FFD700"
        }

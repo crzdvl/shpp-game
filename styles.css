@@ -21,21 +21,15 @@
     opacity: 0.05;
     filter: invert(0);
 }
+#background.night > #GameOverText,
+#background.night > #GameOverShText {
+    filter: invert(1);
+}
 /* @media (max-width: 800px) {
     #backgroundImage {
         transform: rotate(90deg);
     }
 } */
-#restartSvg {
-    position: absolute;
-    left: 10%;
-    top: 10%;
-    width: 80%;
-    height: 80%;
-}
-#restartSvg:hover {
-    animation: .3s ease-out 0.0s  1 rotation;
-}
 @keyframes rotation {
     from {
         transform: rotate(0deg)
@@ -142,9 +136,20 @@ body {
 #MenuBackground:hover {
     color: #2c2c2c
 }
+#restartSvg {
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    width: 80%;
+    height: 80%;
+}
+#MenuBackground:hover > #restartSvg {
+    animation: .3s ease-out 0.0s 1 rotation;
+}
 @media (max-width: 900px) {
     #backgroundImage {
         transform: rotate(90deg);
+        width: 100vh;
     }
     #GameOverText {
         /* top: 60vw; */
