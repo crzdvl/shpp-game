@@ -2,7 +2,7 @@ let state = {
   startText: 0,
   shRealSize: PIXI.TextMetrics.measureText('Ш', config.styles.sh),
   plusRealSize: PIXI.TextMetrics.measureText('+', config.styles.greenPlus),
-  
+
   scoreObject: new PIXI.Text('0', config.styles.score),
   sh: new PIXI.Text('Ш', config.styles.sh),
   greyPlus: new PIXI.Text('+', config.styles.grayPlus),
@@ -22,8 +22,7 @@ let state = {
   stop: false, // stop game
   gravity: 0,
   intervalOfFallingPluses: {
-    falling: 1200
-    ,
+    falling: 1200,
   },
   plusFell: true, // if plus fell
   timeWhenFunctionsDone: 0,
@@ -51,13 +50,20 @@ let state = {
   },
 
 };
-function openMenu(open) {
 
+function openMenu(open) {
+  let scoreBackground = document.getElementById("addBackground");
   let menu = document.getElementById("MenuBackground");
-  let gameOverText = document.getElementById("GameOverText")
+  let gameOverText = document.getElementById("GameOverText");
+  let gameOverShText = document.getElementById("GameOverShText");
+  let gameOverShScore = document.getElementById("GameOverShScore");
+  scoreBackground.style.display = open ? "block" : "none";
   gameOverText.style.display = open ? "block" : "none";
+  gameOverShScore.style.display = open ? "block" : "none";
+  gameOverShText.style.display = open ? "block" : "none";
   menu.style.display = open ? "block" : "none";
 }
+
 function CreateFallingPlus() {
   if (!state.stop) {
     const newPlus = new PIXI.Text('+', config.styles.greenPlus);
@@ -66,6 +72,7 @@ function CreateFallingPlus() {
     // setTimeout(CreateFallingPlus, state.intervalOfFallingPluses.falling);
   }
 }
+
 function FallingPlusCreater() {
   const now = Date.now();
   if (now - state.intervalOfFallingPluses.lastCreated >= state.intervalOfFallingPluses.falling) {
@@ -73,9 +80,9 @@ function FallingPlusCreater() {
     state.intervalOfFallingPluses.lastCreated = now;
   }
 }
-  
+
 function initialization() {
-    openMenu(false)
+  openMenu(false)
   for (let i = 0; i < state.pluses.boom.length; i++) {
     app.stage.removeChild(state.pluses.boom[i]);
   }

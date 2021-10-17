@@ -17,9 +17,11 @@
   <body>
   
   <div id="background" class="day">
-    <div id = "moveLeft"></div>
-    <div id = "moveRight"></div>
     <div id = "GameOverText">GAME OVER</div>
+    <div id = "GameOverShText">Ш = </div>
+    <div id = "addBackground">
+      <div id = "GameOverShScore"></div>
+    </div>
     <div id="backgroundImage"></div>
   </div>
   <div id="start"></div>
@@ -39,10 +41,11 @@
   <script src="js/blastPluses.js"></script>
   <link rel="stylesheet" href="styles.css">
     <script>
+
       function restartAnim() {console.log(true)
         let restartButton = document.getElementById("MenuBackground");
-        restartButton.style.animation = ".5s ease-in 0s 1 changeColor";
-        setTimeout(restart, 700)
+        restartButton.style.animation = ".5s ease-in changeColor";
+        setTimeout(restart, 500)
       }
       function restart(){
         let restartButton = document.getElementById("MenuBackground");
@@ -123,6 +126,8 @@
         }
       }
       function GameOver() {
+        let gameOvrScore = document.getElementById("GameOverShScore")
+        gameOvrScore.innerHTML = ""+state.score+""
         for (let i = 0; i < state.pluses.falling.length; i++) {
           let falling = state.pluses.falling[i]
           let plusSize = state.plusRealSize
@@ -191,8 +196,7 @@
         state.greyPlus.shag.y += config.gravity;
       }
       function dayMode(){
-        let gameOverText = document.getElementById("GameOverText")
-         gameOverText.style.filter = "invert(0)"
+        
           di.className = 'day';
           state.sh.style.fill = "black"
           state.sh.style.stroke = "black"
