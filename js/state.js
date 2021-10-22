@@ -35,7 +35,7 @@ const MakeGreyPlus = (color = 0x27AE60) => {
   const rx = 1 / 43 * width,
         ry = 1 / 72 * fontSize;
   let cx = 0, cy = 0;
-  const M = (x, y) => G.moveTo((cx = x) * rx, (cy = y) * ry);
+  const M = (x, y) => G.moveTo(cx = x, cy = y);
   const V = (y) => {
     const l = cy > y ? -1 : 1;
     drawDashLine(G, cx, cy - l * lineWidth / 2, (cx), (cy = y) + l * lineWidth / 2);
