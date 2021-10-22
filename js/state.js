@@ -1,28 +1,20 @@
-const MakeGreyPlus = () => {
+const MakeGreyPlus = (color = 0x27AE60) => {
   const G = new PIXI.Graphics();
   // G.beginFill(0x5d0015);
   const fontSize = Width * s / 10,  
   width = 0.5927 * fontSize;
-  const lineWidth = fontSize * 0.04 / window.devicePixelRatio;
+  const lineWidth = fontSize * 0.035 / window.devicePixelRatio;
   G.lineStyle({
     width: lineWidth,
-    color: 0x27AE60,
-    // cap: PIXI.LINE_CAP.ROUND,
+    color,
     miterLimit: 200
   });
-  const dash = 2, gap = 6;
-  // G.moveTo(0, 0);
-  // G.drawDashLine(0, 0, dash, gap);
-  // G.drawDashLine(0, fontSize, dash, gap);
-  // G.drawDashLine(width, fontSize, dash, gap);
-  // G.drawDashLine(70, 200, dash, gap);
+  const dash = lineWidth, gap = lineWidth / 2;
 
   const drawDashLine = (
     G,
     fromX, fromY,
-    toX, toY,
-    dash = lineWidth,
-    gap = lineWidth / 2
+    toX, toY
   ) => {
     const dist = Math.sqrt(Math.pow(fromX - toX, 2) + Math.pow(fromY - toY, 2));
     const angle = Math.atan2(toY - fromY, toX - fromX);
@@ -46,77 +38,27 @@ const MakeGreyPlus = () => {
   const M = (x, y) => G.moveTo((cx = x) * rx, (cy = y) * ry);
   const V = (y) => {
     const l = cy > y ? -1 : 1;
-    drawDashLine(G, cx * rx, cy * ry - l * lineWidth / 2, (cx) * rx, (cy = y) * ry + l * lineWidth / 2);
+    drawDashLine(G, cx, cy - l * lineWidth / 2, (cx), (cy = y) + l * lineWidth / 2);
   }
   const H = (x) => {
     const l = cx > x ? -1 : 1;
-    drawDashLine(G, cx * rx - l * lineWidth / 2, cy * ry, (cx = x) * rx + l * lineWidth / 2, (cy) * ry);
+    drawDashLine(G, cx - l * lineWidth / 2, cy, (cx = x) + l * lineWidth / 2, cy);
   }
-  M(16.4883, 58.582);
-  V(45.1875);
-  H(2.98828);
-  V(35.9414);
-  H(16.4883);
-  V(22.5469);
-  H(25.4883);
-  V(35.9414);
-  H(39.0234);
-  V(45.1875);
-  H(25.4883);
-    V(58.582);
-    H(16.4883);
+  M(16.4883 * rx, 58.582 * ry);
+  V(45.1875 * ry);
+  H(2.98828 * rx);
+  V(35.9414 * ry);
+  H(16.4883 * rx);
+  V(22.5469 * ry);
+  H(25.4883 * rx);
+  V(35.9414 * ry);
+  H(39.0234 * rx);
+  V(45.1875 * ry);
+  H(25.4883 * rx);
+  V(58.5820 * ry);
+  H(16.4883 * rx);
 
-  /**
-   * 
-   * <svg width="38" height="37" viewBox="0 0 38 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="
-  M14.4883 36.582
-  V23.1875
-  H0.988281
-  V13.9414
-  H14.4883
-  V0.546875
-  H23.4883
-  V13.9414
-  H37.0234
-  V23.1875
-  H23.4883
-  V36.582
-  H14.4883
-  Z
-</svg>
-
-<svg width="43" height="83" viewBox="0 0 43 83" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="43" height="83" fill="white"/>
-<path d="
-M16.4883 58.582
-V45.1875
-H2.98828
-V35.9414
-H16.4883
-V22.5469
-H25.4883
-V35.9414
-H39.0234
-V45.1875
-H25.4883
-V58.582
-H16.4883
-Z
-" fill="#27AE60"/>
-</svg>
-
-
-   */
   return G;
-  /*
-      // fill: '#FFD700',
-      lineJoin: 'round',
-      stroke: '#3D3D3D',
-      fontSize: Width * s / 10 - 8 / window.devicePixelRatio * 1.25,
-      fontWeight: 'bold',
-      strokeThickness: ,
-   */
   return new PIXI.Text('+', config.styles.grayPlus);
 }
 
