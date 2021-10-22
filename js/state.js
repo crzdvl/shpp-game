@@ -1,3 +1,67 @@
+const MakeGreyPlus = (color = 0x27AE60) => {
+  const G = new PIXI.Graphics();
+  // G.beginFill(0x5d0015);
+  const fontSize = Width * s / 10,  
+  width = 0.5927 * fontSize;
+  const lineWidth = fontSize * 0.035 / window.devicePixelRatio;
+  G.lineStyle({
+    width: lineWidth,
+    color,
+    miterLimit: 200
+  });
+  const dash = lineWidth, gap = lineWidth / 2;
+
+  const drawDashLine = (
+    G,
+    fromX, fromY,
+    toX, toY
+  ) => {
+    const dist = Math.sqrt(Math.pow(fromX - toX, 2) + Math.pow(fromY - toY, 2));
+    const angle = Math.atan2(toY - fromY, toX - fromX);
+    const segmentsCount = Math.floor(dist / (dash + gap)),
+          offset = (dist - dash * segmentsCount - gap * (segmentsCount - 1)) / 2;
+    for (let i = 0; i < segmentsCount; ++i) {
+      G.moveTo(
+        fromX + Math.cos(angle) * Math.min(dist, offset + i * (dash + gap)),
+        fromY + Math.sin(angle) * Math.min(dist, offset + i * (dash + gap))
+      );
+      G.lineTo(
+        fromX + Math.cos(angle) * Math.min(dist, offset + (i * (dash + gap) + dash)),
+        fromY + Math.sin(angle) * Math.min(dist, offset + (i * (dash + gap) + dash))
+      );
+    }
+  }
+
+  const rx = 1 / 43 * width,
+        ry = 1 / 72 * fontSize;
+  let cx = 0, cy = 0;
+  const M = (x, y) => G.moveTo(cx = x, cy = y);
+  const V = (y) => {
+    const l = cy > y ? -1 : 1;
+    drawDashLine(G, cx, cy - l * lineWidth / 2, (cx), (cy = y) + l * lineWidth / 2);
+  }
+  const H = (x) => {
+    const l = cx > x ? -1 : 1;
+    drawDashLine(G, cx - l * lineWidth / 2, cy, (cx = x) + l * lineWidth / 2, cy);
+  }
+  M(16.4883 * rx, 58.582 * ry);
+  V(45.1875 * ry);
+  H(2.98828 * rx);
+  V(35.9414 * ry);
+  H(16.4883 * rx);
+  V(22.5469 * ry);
+  H(25.4883 * rx);
+  V(35.9414 * ry);
+  H(39.0234 * rx);
+  V(45.1875 * ry);
+  H(25.4883 * rx);
+  V(58.5820 * ry);
+  H(16.4883 * rx);
+
+  return G;
+  return new PIXI.Text('+', config.styles.grayPlus);
+}
+
 let state = {
   startText: 0,
   shRealSize: PIXI.TextMetrics.measureText('Ш', config.styles.sh),
@@ -5,7 +69,7 @@ let state = {
 
   scoreObject: new PIXI.Text('0', config.styles.score),
   sh: new PIXI.Text('Ш', config.styles.sh),
-  greyPlus: new PIXI.Text('+', config.styles.grayPlus),
+  greyPlus: MakeGreyPlus(),
   fontSize: Width / 10,
   deadPlus: {
     value: 0,
@@ -107,7 +171,7 @@ function initialization() {
     plusRealSize: PIXI.TextMetrics.measureText('+', config.styles.greenPlus),
     scoreObject: new PIXI.Text('0', config.styles.score),
     sh: new PIXI.Text('Ш', config.styles.sh),
-    greyPlus: new PIXI.Text('+', config.styles.grayPlus),
+    greyPlus: MakeGreyPlus(),
     fontSize: Width / 10,
     deadPlus: {
       value: 0,
