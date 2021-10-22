@@ -1,80 +1,70 @@
-// source: https://stackoverflow.com/a/52498612/4159122
-PIXI.Graphics.prototype.drawDashLine = function(toX, toY, dash = 16, gap = 8) {
-  const lastPosition = this.currentPath.points;
-
-  const currentPosition = {
-    x: lastPosition[lastPosition.length - 2] || 0,
-    y: lastPosition[lastPosition.length - 1] || 0
-  };
-
-  const absValues = {
-    toX: Math.abs(toX),
-    toY: Math.abs(toY)
-  };
-
-  for (
-    ;
-    Math.abs(currentPosition.x) < absValues.toX ||
-    Math.abs(currentPosition.y) < absValues.toY;
-  ) {
-    currentPosition.x =
-      Math.abs(currentPosition.x + dash) < absValues.toX
-        ? currentPosition.x + dash
-        : toX;
-    currentPosition.y =
-      Math.abs(currentPosition.y + dash) < absValues.toY
-        ? currentPosition.y + dash
-        : toY;
-
-    this.lineTo(currentPosition.x, currentPosition.y);
-
-    currentPosition.x =
-      Math.abs(currentPosition.x + gap) < absValues.toX
-        ? currentPosition.x + gap
-        : toX;
-    currentPosition.y =
-      Math.abs(currentPosition.y + gap) < absValues.toY
-        ? currentPosition.y + gap
-        : toY;
-
-    this.moveTo(currentPosition.x, currentPosition.y);
-  }
-};
 const MakeGreyPlus = () => {
   const G = new PIXI.Graphics();
   // G.beginFill(0x5d0015);
+  const fontSize = Width * s / 10,  
+  width = 0.5927 * fontSize;
+  const lineWidth = fontSize * 0.04 / window.devicePixelRatio;
   G.lineStyle({
-    width: 8 / window.devicePixelRatio,
-    color: 0x3D3D3D,
-    cap: PIXI.LINE_CAP.ROUND,
+    width: lineWidth,
+    color: 0x27AE60,
+    // cap: PIXI.LINE_CAP.ROUND,
     miterLimit: 200
   });
-  const fontSize = Width * s / 10,  
-        width = 0.5927 * fontSize;
   const dash = 2, gap = 6;
-  G.moveTo(0, 0);
-  G.drawDashLine(0, 0, dash, gap);
-  G.drawDashLine(0, fontSize, dash, gap);
-  G.drawDashLine(width, fontSize, dash, gap);
-  G.drawDashLine(70, 200, dash, gap);
+  // G.moveTo(0, 0);
+  // G.drawDashLine(0, 0, dash, gap);
+  // G.drawDashLine(0, fontSize, dash, gap);
+  // G.drawDashLine(width, fontSize, dash, gap);
+  // G.drawDashLine(70, 200, dash, gap);
 
+  const drawDashLine = (
+    G,
+    fromX, fromY,
+    toX, toY,
+    dash = lineWidth,
+    gap = lineWidth / 2
+  ) => {
+    const dist = Math.sqrt(Math.pow(fromX - toX, 2) + Math.pow(fromY - toY, 2));
+    const angle = Math.atan2(toY - fromY, toX - fromX);
+    const segmentsCount = Math.floor(dist / (dash + gap)),
+          offset = (dist - dash * segmentsCount - gap * (segmentsCount - 1)) / 2;
+    for (let i = 0; i < segmentsCount; ++i) {
+      G.moveTo(
+        fromX + Math.cos(angle) * Math.min(dist, offset + i * (dash + gap)),
+        fromY + Math.sin(angle) * Math.min(dist, offset + i * (dash + gap))
+      );
+      G.lineTo(
+        fromX + Math.cos(angle) * Math.min(dist, offset + (i * (dash + gap) + dash)),
+        fromY + Math.sin(angle) * Math.min(dist, offset + (i * (dash + gap) + dash))
+      );
+    }
+  }
+
+  const rx = 1 / 43 * width,
+        ry = 1 / 72 * fontSize;
   let cx = 0, cy = 0;
-  const M = (x, y) => G.moveTo(cx = x, cy = y);
-  const V = (y) => G.drawDashLine(cx, cy = y);
-  const H = (x) => G.drawDashLine(cx = x, cy);
-  M(14.4883, 36.582);
-  V(23.1875);
-  H(0.988281);
-  V(13.9414);
-  H(14.4883);
-  V(0.546875);
-  H(23.4883);
-  V(13.9414);
-  H(37.0234);
-  V(23.1875);
-  H(23.4883);
-  V(36.582);
-  H(14.4883);
+  const M = (x, y) => G.moveTo((cx = x) * rx, (cy = y) * ry);
+  const V = (y) => {
+    const l = cy > y ? -1 : 1;
+    drawDashLine(G, cx * rx, cy * ry - l * lineWidth / 2, (cx) * rx, (cy = y) * ry + l * lineWidth / 2);
+  }
+  const H = (x) => {
+    const l = cx > x ? -1 : 1;
+    drawDashLine(G, cx * rx - l * lineWidth / 2, cy * ry, (cx = x) * rx + l * lineWidth / 2, (cy) * ry);
+  }
+  M(16.4883, 58.582);
+  V(45.1875);
+  H(2.98828);
+  V(35.9414);
+  H(16.4883);
+  V(22.5469);
+  H(25.4883);
+  V(35.9414);
+  H(39.0234);
+  V(45.1875);
+  H(25.4883);
+    V(58.582);
+    H(16.4883);
 
   /**
    * 
@@ -95,6 +85,27 @@ const MakeGreyPlus = () => {
   H14.4883
   Z
 </svg>
+
+<svg width="43" height="83" viewBox="0 0 43 83" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="43" height="83" fill="white"/>
+<path d="
+M16.4883 58.582
+V45.1875
+H2.98828
+V35.9414
+H16.4883
+V22.5469
+H25.4883
+V35.9414
+H39.0234
+V45.1875
+H25.4883
+V58.582
+H16.4883
+Z
+" fill="#27AE60"/>
+</svg>
+
 
    */
   return G;
