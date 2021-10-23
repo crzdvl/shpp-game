@@ -72,80 +72,6 @@ body {
     height: 100%;
     width: 100%;
 }
-#GameOverShScore {
-    z-index: 1000;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    text-align: center;
-    height: 100%;
-    margin: auto;
-    top: 5%;
-    font-family: Arial;
-    font-weight: bold;
-    font-size: 4vw;
-    line-height: 90%;
-    resize: both;
-    color: #3D3D3D;
-}
-#GameOverShText {
-    margin:auto;
-    position: absolute;
-    width: 25vw;
-    height: 4vh;
-    left: 50vw;
-    transform: translate(-25%);
-    top: 34vh;
-    font-family: Arial;
-    font-weight: bold;
-    font-size: 4vw;
-    line-height: 5vh;
-    resize: both;
-    color: #3D3D3D;
-}
-#GameOverText {
-    position: absolute;
-    width: 25vw;
-    height: 4vh;
-    left: 37.5vw;
-    top: 20vh;
-    z-index: 1000;
-    font-family: Arial;
-    font-weight: bold;
-    font-size: 4vw;
-    line-height: 5vh;
-    resize: both;
-    color: #3D3D3D;
-
-
-}
-#MenuBackground {
-    z-index: 2;
-    left: 44%;
-    overflow: hidden;
-    top: 44%;
-    border-style: solid;
-    border-color: dimgrey;
-    border-radius: 5%;
-    border-width: 0.5%;
-    width: 12%;
-    padding-bottom: 12%;
-    position: absolute;
-    background-color: #3D3D3D;
-}
-#MenuBackground:hover {
-    color: #2c2c2c
-}
-#restartSvg {
-    position: absolute;
-    left: 10%;
-    top: 10%;
-    width: 80%;
-    height: 80%;
-}
-#MenuBackground:hover > #restartSvg {
-    animation: .3s ease-out 0.0s 1 rotation;
-}
 @media (max-width: 900px) {
     #backgroundImage {
         transform: rotate(90deg);
@@ -234,3 +160,111 @@ canvas {
     resize: both;
 }
 
+
+#GameOverMenu {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    margin: 0 auto;
+    padding: 20vh 0;
+    width: 25%;
+    height: 100%;
+    box-sizing: border-box;
+    z-index: 100500;
+
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+#GameOverMenu.open {
+    display: flex;
+}
+#background.night #GameOverText,
+#background.night #GameOverShText,
+#background.night #GameOverShScore {
+    color: white !important;
+}
+#GameOverMenu > #GameOverText {
+    /* position: absolute;
+    width: 25vw;
+    height: 4vh;
+    left: 37.5vw;
+    top: 20vh;
+    z-index: 1000; */
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 4vw;
+    line-height: 5vh;
+    resize: both;
+    color: #3D3D3D;
+}
+#GameOverMenu > #GameOverShText {
+    /* margin:auto;
+    position: absolute;
+    width: 25vw;
+    height: 4vh;
+    left: 50vw;
+    transform: translate(-25%);
+    top: 34vh; */
+    margin: 32px 0;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 4vw;
+    line-height: 5vh;
+    resize: both;
+    color: #3D3D3D;
+}
+#GameOverMenu > #GameOverShText > #GameOverShScore {
+    /* z-index: 1000; */
+    /* position: absolute; */
+    /* width: 100%; */
+    /* left: 0; */
+    text-align: center;
+    /* height: 100%; */
+    margin: auto;
+    /* top: 5%; */
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 4vw;
+    line-height: 90%;
+    resize: both;
+    color: #3D3D3D;
+}
+#GameOverMenu > #GameOverShText > #GameOverShScore.highscore {
+    padding: 4px 8px;
+    background-color: #FFD700;
+    border-radius: 8px;
+}
+#GameOverMenu > #GameOverRestartButton {
+    /* z-index: 2; */
+    /* left: 44%; */
+    overflow: hidden;
+    /* top: 44%; */
+    border-style: solid;
+    border-color: dimgrey;
+    border-radius: 5%;
+    border-width: 0.5%;
+    width: 12vw;
+    height: 12vw;
+    cursor: pointer;
+    /* padding-bottom: 12%; */
+    
+    /* position: absolute; */
+    position: relative;
+    background-color: #3D3D3D;
+}
+#GameOverMenu > #GameOverRestartButton:hover {
+    color: #2c2c2c
+}
+#GameOverMenu > #GameOverRestartButton:hover > #restartSvg {
+    animation: .3s ease-out 0.0s 1 rotation;
+}
+#GameOverMenu > #GameOverRestartButton > #restartSvg {
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    width: 80%;
+    height: 80%;
+}

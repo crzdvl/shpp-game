@@ -5,7 +5,8 @@ function GameScore() {
     state.score += 1;
     if (state.recordScore < state.score){
       state.recordScore = state.score;
-      console.log(state.recordScore)
+      let gameOvrScore = document.getElementById("GameOverShScore")
+      gameOvrScore.innerHTML = "" + state.recordScore;
     }
   }
   state.scoreAdd = false;

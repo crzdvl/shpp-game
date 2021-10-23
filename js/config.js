@@ -7,7 +7,7 @@ const config = {
   rotationRandomizer: (0.025 - 0.018) + 0.018, // random speed rotate plus
   animGoldPlusSpeed: Width * s / 280, // speed anim
   catchedPlusesDist: (Width * s / 10) / 1.8,
-  greyDist: (Width * s / 10) / 2.8, // dist between sh and grey plua
+  greyDist: (Width * s / 10) * 0.445, // dist between sh and grey plua
   gravity: 0.4,
   fallingPlusesSpeed: (Width * s / 250),
   shStartXPosition: Width * s / 2 - (Width * s / 10) / 2,
@@ -66,8 +66,9 @@ const config = {
       fill: '#27AE60',
       fontSize: Width * s / 15,
       lineJoin: 'round',
-      stroke: '#27AE60',
-      strokeThickness: 8 / window.devicePixelRatio,
+      fontWeight: 'bold'
+      // stroke: '#27AE60',
+      // strokeThickness: 8 / window.devicePixelRatio,
     }),
   },
 };

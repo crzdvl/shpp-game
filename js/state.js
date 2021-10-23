@@ -116,17 +116,8 @@ let state = {
 };
 
 function openMenu(open) {
- 
-  let scoreBackground = document.getElementById("addBackground");
-  let menu = document.getElementById("MenuBackground");
-  let gameOverText = document.getElementById("GameOverText");
-  let gameOverShText = document.getElementById("GameOverShText");
-  let gameOverShScore = document.getElementById("GameOverShScore");
-  scoreBackground.style.display = open ? "block" : "none";
-  gameOverText.style.display = open ? "block" : "none";
-  gameOverShScore.style.display = open ? "block" : "none";
-  gameOverShText.style.display = open ? "block" : "none";
-  menu.style.display = open ? "block" : "none";
+  let menu = document.getElementById("GameOverMenu");
+  menu.className = open ? 'open' : '';
 }
 
 function CreateFallingPlus() {
@@ -173,7 +164,7 @@ function initialization() {
   }
 
   state = {
-    freezing: true,
+    freezing: false,
     recordScore: 0,
     shRealSize: PIXI.TextMetrics.measureText('Ш', config.styles.sh),
     plusRealSize: PIXI.TextMetrics.measureText('+', config.styles.greenPlus),
