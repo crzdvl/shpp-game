@@ -139,9 +139,14 @@ function CreateFallingPlus() {
 
 function FallingPlusCreater() {
   const now = Date.now();
-  if (now - state.intervalOfFallingPluses.lastCreated >= state.intervalOfFallingPluses.falling) {
+  if (now - state.intervalOfFallingPluses.lastCreated >= state.intervalOfFallingPluses.falling && !state.freezing) {
     CreateFallingPlus();
     state.intervalOfFallingPluses.lastCreated = now;
+  }
+  else if (now - state.intervalOfFallingPluses.lastCreated >= state.intervalOfFallingPluses.falling && state.freezing) {
+    CreateFallingPlus();
+    state.intervalOfFallingPluses.lastCreated = now;
+    state.intervalOfFallingPluses.falling/=0.5
   }
 }
 
@@ -167,6 +172,7 @@ function initialization() {
   }
 
   state = {
+    freezing: true,
     shRealSize: PIXI.TextMetrics.measureText('Ш', config.styles.sh),
     plusRealSize: PIXI.TextMetrics.measureText('+', config.styles.greenPlus),
     scoreObject: new PIXI.Text('0', config.styles.score),

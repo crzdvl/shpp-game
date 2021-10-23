@@ -4,17 +4,6 @@ let s = 1;
 // else s = 1;
 
 const config = {
-  // replics: {
-  //   start: [
-  //     'Здравствуй!',
-  //     'Кажется ты ::нашёл нечто скрытое',
-  //     'Для управления пользуйся стрелочками',
-  //     'Поехали!',
-  //     '3',
-  //     '2',
-  //     '1',
-  //   ],
-  // },
   rotationRandomizer: (0.025 - 0.018) + 0.018, // random speed rotate plus
   animGoldPlusSpeed: Width * s / 280, // speed anim
   catchedPlusesDist: (Width * s / 10) / 1.8,
@@ -47,7 +36,7 @@ const config = {
     }),
 
     grayPlus: new PIXI.TextStyle({
-      // fill: '#FFD700',
+      fill: '#999999',
       lineJoin: 'round',
       stroke: '#3D3D3D',
       fontSize: Width * s / 10 - 8 / window.devicePixelRatio * 1.25,

@@ -19,13 +19,21 @@
   <div id="background" class="day">
     <div id = "GameOverText">GAME OVER</div>
     <div id = "GameOverShText">Ш = </div>
+    <div id = moveRight><svg width="20%" height="10%" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M61.5 15C61.5 13 61.5 3.5 49 2.5L2.5 49C3.5 61.5 13 61.5 15 61.5H53C56.5899 61.5 61.5 56.5899 61.5 53V15Z" fill="#ffffff" stroke="#3D3D3D" stroke-width="3"/>
+      <rect id = "back" x="2.5" y="2.5" width="53" height="53" rx="6.5" fill="white" stroke="#3D3D3D" stroke-width="3"/>
+      <path id = "back" d="M41.5607 30.0607C42.1464 29.4749 42.1464 28.5251 41.5607 27.9393L32.0147 18.3934C31.4289 17.8076 30.4792 17.8076 29.8934 18.3934C29.3076 18.9792 29.3076 19.9289 29.8934 20.5147L38.3787 29L29.8934 37.4853C29.3076 38.0711 29.3076 39.0208 29.8934 39.6066C30.4792 40.1924 31.4289 40.1924 32.0147 39.6066L41.5607 30.0607ZM40.5 27.5H17V30.5H40.5V27.5Z" fill="#3D3D3D"/>
+      </svg>
+      </div>
+    <div id = moveLeft></div>
     <div id = "addBackground">
       <div id = "GameOverShScore"></div>
     </div>
     <div id="backgroundImage"></div>
   </div>
   <div id="start"></div>
-  <div id="MenuBackground" onclick = "restartAnim()"><svg id = "restartSvg" width="39" height="43" viewBox="0 0 39 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div id="MenuBackground" onclick = "restartAnim()">
+    <svg id = "restartSvg" width="39" height="43" viewBox="0 0 39 43" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M21.5562 42.8795C30.182 41.9132 37.0949 35.0179 38.0787 26.3921C39.3699 15.1136 30.6036 5.51285 19.615 5.38987V0.330358C19.615 0.0492735 19.2636 -0.100052 19.0264 0.0756251L8.60875 7.72638C8.43307 7.85814 8.43307 8.11287 8.60875 8.24463L19.0264 15.8954C19.2636 16.0711 19.615 15.913 19.615 15.6407V10.5899C27.336 10.7129 33.5198 17.2832 32.9928 25.136C32.5448 31.8908 27.0373 37.372 20.2825 37.8024C13.1237 38.2591 7.03644 33.1469 5.94724 26.3833C5.74521 25.1272 4.64722 24.2137 3.38234 24.2137C1.81003 24.2137 0.580284 25.6104 0.826233 27.1651C2.35463 36.801 11.2527 44.0302 21.5562 42.8795Z" fill="#F8F8F8"/>
     </svg>
     </div>
@@ -120,8 +128,11 @@
 
       function PlusMover() {
         for (let i = 0; i < state.pluses.falling.length; i++) {
-          if (!state.pluses.falling[i].catched) {
+          if (!state.pluses.falling[i].catched && !state.freezing) {
             state.pluses.falling[i].y += state.pluses.falling[i].speed * state.deltaTime;
+          }
+          else if (!state.pluses.falling[i].catched) {
+            state.pluses.falling[i].y += state.pluses.falling[i].speed * state.deltaTime * 0.2;
           }
         }
       }
