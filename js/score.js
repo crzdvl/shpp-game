@@ -3,9 +3,14 @@ function GameScore() {
   if (state.scoreAdd) {
     AddScoreAnimation();
     state.score += 1;
+    if (state.recordScore < state.score){
+      state.recordScore = state.score;
+      console.log(state.recordScore)
+    }
   }
   state.scoreAdd = false;
 }
+
 
 function ScoreAnimPlus() {
   if (state.scoreColorAlpha < 1) {
