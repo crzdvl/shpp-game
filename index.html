@@ -380,17 +380,20 @@
             openMenu("Open");
           }
           if (IsGameOver()) {
+  
+            if (!state.stop) {
+              const STORAGE_KEY = 'shpp-highscore';
+              const savedHighscore = parseInt(localStorage.getItem(STORAGE_KEY));
+
+              let isHighscore = (state.recordScore > savedHighscore || isNaN(savedHighscore));
+              if (isHighscore)
+                localStorage.setItem(STORAGE_KEY, state.recordScore);
+
+              const shScore = document.getElementById('GameOverShScore');
+              shScore.className = isHighscore ? 'highscore' : '';
+            }
+
             state.stop = true;
-
-            const STORAGE_KEY = 'shpp-highscore';
-            const savedHighscore = parseInt(localStorage.getItem(STORAGE_KEY));
-
-            let isHighscore = (state.recordScore > savedHighscore || isNaN(savedHighscore));
-            if (isHighscore)
-              localStorage.setItem(STORAGE_KEY, state.recordScore);
-
-            const shScore = document.getElementById('GameOverShScore');
-            shScore.className = isHighscore ? 'highscore' : '';
           }
         }
       });
