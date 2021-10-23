@@ -3,7 +3,7 @@ const MakeGreyPlus = (color = 0x27AE60) => {
   // G.beginFill(0x5d0015);
   const fontSize = Width * s / 10,  
   width = 0.5927 * fontSize;
-  const lineWidth = fontSize * 0.035 / window.devicePixelRatio;
+  const lineWidth = fontSize * 0.06999 / window.devicePixelRatio;
   G.lineStyle({
     width: lineWidth,
     color,
@@ -63,6 +63,7 @@ const MakeGreyPlus = (color = 0x27AE60) => {
 }
 
 let state = {
+  worldSpeed: 1,
   startText: 0,
   shRealSize: PIXI.TextMetrics.measureText('Ш', config.styles.sh),
   plusRealSize: PIXI.TextMetrics.measureText('+', config.styles.greenPlus),
@@ -131,14 +132,9 @@ function CreateFallingPlus() {
 
 function FallingPlusCreater() {
   const now = Date.now();
-  if (now - state.intervalOfFallingPluses.lastCreated >= state.intervalOfFallingPluses.falling && !state.freezing) {
+  if (now - state.intervalOfFallingPluses.lastCreated >= state.intervalOfFallingPluses.falling / state.worldSpeed) {
     CreateFallingPlus();
     state.intervalOfFallingPluses.lastCreated = now;
-  }
-  else if (now - state.intervalOfFallingPluses.lastCreated >= state.intervalOfFallingPluses.falling && state.freezing) {
-    CreateFallingPlus();
-    state.intervalOfFallingPluses.lastCreated = now;
-    state.intervalOfFallingPluses.falling/=0.5
   }
 }
 
@@ -164,7 +160,7 @@ function initialization() {
   }
 
   state = {
-    freezing: false,
+    worldSpeed: 1,
     recordScore: 0,
     shRealSize: PIXI.TextMetrics.measureText('Ш', config.styles.sh),
     plusRealSize: PIXI.TextMetrics.measureText('+', config.styles.greenPlus),
