@@ -173,11 +173,8 @@ function initialization() {
   }
 
   state = {
-<<<<<<< HEAD
     freezing: true,
-=======
     recordScore: 0,
->>>>>>> b14e3b1101f08102a5e49fcedafdf99f64d375e7
     shRealSize: PIXI.TextMetrics.measureText('Ш', config.styles.sh),
     plusRealSize: PIXI.TextMetrics.measureText('+', config.styles.greenPlus),
     scoreObject: new PIXI.Text('0', config.styles.score),
