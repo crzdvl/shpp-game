@@ -66,7 +66,7 @@ let state = {
   startText: 0,
   shRealSize: PIXI.TextMetrics.measureText('Ш', config.styles.sh),
   plusRealSize: PIXI.TextMetrics.measureText('+', config.styles.greenPlus),
-
+  recordScore: 0,
   scoreObject: new PIXI.Text('0', config.styles.score),
   sh: new PIXI.Text('Ш', config.styles.sh),
   greyPlus: MakeGreyPlus(),
@@ -112,10 +112,11 @@ let state = {
     h: 0,
     w: 0,
   },
-
+  
 };
 
 function openMenu(open) {
+ 
   let scoreBackground = document.getElementById("addBackground");
   let menu = document.getElementById("MenuBackground");
   let gameOverText = document.getElementById("GameOverText");
@@ -167,6 +168,7 @@ function initialization() {
   }
 
   state = {
+    recordScore: 0,
     shRealSize: PIXI.TextMetrics.measureText('Ш', config.styles.sh),
     plusRealSize: PIXI.TextMetrics.measureText('+', config.styles.greenPlus),
     scoreObject: new PIXI.Text('0', config.styles.score),
@@ -233,5 +235,6 @@ function initialization() {
   app.stage.addChild(state.sh);
   app.stage.addChild(state.greyPlus);
   state.startGame = true;
+
   // CreateFallingPlus();
 }

@@ -127,7 +127,8 @@
       }
       function GameOver() {
         let gameOvrScore = document.getElementById("GameOverShScore")
-        gameOvrScore.innerHTML = ""+state.score+""
+        gameOvrScore.innerHTML = ""+state.recordScore+""
+        
         for (let i = 0; i < state.pluses.falling.length; i++) {
           let falling = state.pluses.falling[i]
           let plusSize = state.plusRealSize
