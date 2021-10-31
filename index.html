@@ -184,7 +184,7 @@
 
       function TouchStartHandler(e) {
         if (state.startGame) {
-          const touch = e.changedTouches?.[0];
+          const touch = e.changedTouches[0];
           if (touch.clientX < Width / 2)
             pressLeft(true);
           else
