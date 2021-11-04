@@ -93,6 +93,7 @@ function PlusCaught(X, Y) {
   lastPlus.Xshag = Math.floor(Math.random() * config.sizesForRandom.x);
   lastPlus.Yshag = Math.floor(Math.random() * config.sizesForRandom.y);
   app.stage.addChild(lastPlus);
+  window.navigator.vibrate(15);
 }
 
 function createGoldPlus() {

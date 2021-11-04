@@ -382,6 +382,8 @@
           if (IsGameOver()) {
   
             if (!state.stop) {
+              tutorialStop();
+              window.navigator.vibrate([50, 25, 25]);
               const STORAGE_KEY = 'shpp-highscore';
               const savedHighscore = parseInt(localStorage.getItem(STORAGE_KEY));
 
